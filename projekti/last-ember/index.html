@@ -1,0 +1,844 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Last Ember Burger Bar</title>
+<meta name="description" content="Last Ember, a Belgrade burger bar open after midnight. Live fire, fresh beef, house sauces. Order online or book a table.">
+<meta name="theme-color" content="#0E1328">
+<meta property="og:title" content="Last Ember Burger Bar">
+<meta property="og:description" content="When the lights go out, the last ember stays. Burger bar open till 03:00.">
+<meta property="og:type" content="restaurant.restaurant">
+<link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@600;700;800&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Restaurant",
+  "name": "Last Ember",
+  "description": "Burger bar in Belgrade, open after midnight. Live fire, fresh beef, house sauces.",
+  "servesCuisine": ["Burgers", "Grill"],
+  "priceRange": "$$",
+  "telephone": "+381115550312",
+  "email": "hello@lastember.rs",
+  "address": { "@type": "PostalAddress", "streetAddress": "Ulica Plamena 12", "addressLocality": "Beograd", "addressCountry": "RS" },
+  "openingHoursSpecification": [{ "@type": "OpeningHoursSpecification", "dayOfWeek": ["Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"], "opens": "20:00", "closes": "03:00" }],
+  "acceptsReservations": "True",
+  "aggregateRating": { "@type": "AggregateRating", "ratingValue": "4.8", "reviewCount": "312" }
+}
+</script>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<a class="skip" href="#menu" data-i="skip">Skip to the menu</a>
+
+<!-- ============ NAV ============ -->
+<nav class="nav" id="nav" aria-label="Main">
+  <div class="wrap">
+    <a href="#top" class="logo" aria-label="Last Ember">
+      <svg class="logo-mark" viewBox="0 0 32 32" aria-hidden="true">
+        <path d="M10,26 C7,18 13,15 11,8 C18,12 16,19 20,17 C19,24 14,26 10,26 Z" fill="#E0A04A"/>
+        <path d="M20,26 C18,20 23,18 22,12 C27,15 25,21 28,20 C27,25 23,26 20,26 Z" fill="#F2C36F" opacity="0.85"/>
+      </svg>
+      LAST EMBER
+    </a>
+    <div class="nav-links">
+      <a href="#menu" data-i="nav_menu">Menu</a>
+      <a href="#specials" data-i="nav_deals">Deals</a>
+      <a href="#story" class="opt" data-i="nav_story">Story</a>
+      <a href="#book" data-i="nav_book">Book a table</a>
+      <a href="#events" class="opt" data-i="nav_events">Events</a>
+      <a href="#contact" data-i="nav_contact">Contact</a>
+    </div>
+    <div class="nav-right">
+      <span class="status-pill" id="statusPill"><span class="status-dot"></span><span id="statusText">...</span></span>
+      <div class="lang" role="group" data-ia="aria_lang" aria-label="Language">
+        <button type="button" data-lang="en" aria-pressed="true">EN</button>
+        <button type="button" data-lang="sr" aria-pressed="false">SR</button>
+      </div>
+      <button class="cart-btn" id="cartBtn" type="button" data-ia="aria_cart" aria-label="Open your order">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+        <span class="cart-word" data-i="nav_order">Order</span>
+        <span class="cart-count" id="cartCount">0</span>
+      </button>
+      <button class="burger-btn" id="burgerBtn" type="button" data-ia="aria_nav" aria-label="Open navigation">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+      </button>
+    </div>
+  </div>
+</nav>
+
+<div class="mobile-menu" id="mobileMenu" aria-hidden="true">
+  <button class="mobile-close" id="mobileClose" type="button" data-ia="aria_close" aria-label="Close">&times;</button>
+  <a href="#menu" data-i="nav_menu">Menu</a>
+  <a href="#specials" data-i="nav_deals">Deals</a>
+  <a href="#story" data-i="nav_story">Story</a>
+  <a href="#gallery" data-i="nav_gallery">Gallery</a>
+  <a href="#book" data-i="nav_book">Book a table</a>
+  <a href="#events" data-i="nav_events">Events</a>
+  <a href="#jobs" data-i="nav_jobs">Jobs</a>
+  <a href="#contact" data-i="nav_contact">Contact</a>
+  <div class="lang" role="group" data-ia="aria_lang" aria-label="Language">
+    <button type="button" data-lang="en" aria-pressed="true">EN</button>
+    <button type="button" data-lang="sr" aria-pressed="false">SR</button>
+  </div>
+</div>
+
+<!-- ============ HERO ============ -->
+<section class="journey" id="top">
+  <div class="journey-stage">
+    <div class="rig-wrap">
+      <svg viewBox="0 0 600 620" aria-hidden="true" focusable="false">
+        <defs>
+          <linearGradient id="heroBunGrad" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#EAC07E"/><stop offset="100%" stop-color="#B9803E"/>
+          </linearGradient>
+          <linearGradient id="heroPattyGrad" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#5b3620"/><stop offset="100%" stop-color="#2a1810"/>
+          </linearGradient>
+          <linearGradient id="heroCheeseGrad" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#F3C659"/><stop offset="100%" stop-color="#DB9F34"/>
+          </linearGradient>
+          <radialGradient id="heroGlowGrad" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stop-color="#E0A04A" stop-opacity="0.85"/>
+            <stop offset="55%" stop-color="#E0A04A" stop-opacity="0.16"/>
+            <stop offset="100%" stop-color="#E0A04A" stop-opacity="0"/>
+          </radialGradient>
+        </defs>
+        <ellipse id="glow" cx="300" cy="350" rx="260" ry="230" fill="url(#heroGlowGrad)" opacity="0.35"/>
+        <ellipse cx="300" cy="478" rx="165" ry="22" fill="#000000" opacity="0.35"/>
+        <g id="rig">
+          <g id="bunBottom">
+            <rect x="130" y="396" width="340" height="68" rx="34" fill="url(#heroBunGrad)"/>
+            <rect x="150" y="404" width="300" height="9" rx="4.5" fill="#ffffff" opacity="0.16"/>
+          </g>
+          <g id="patty">
+            <rect x="140" y="362" width="320" height="38" rx="14" fill="url(#heroPattyGrad)"/>
+            <line x1="175" y1="372" x2="213" y2="392" stroke="#180d07" stroke-width="6" stroke-linecap="round" opacity="0.55"/>
+            <line x1="235" y1="372" x2="273" y2="392" stroke="#180d07" stroke-width="6" stroke-linecap="round" opacity="0.55"/>
+            <line x1="327" y1="372" x2="365" y2="392" stroke="#180d07" stroke-width="6" stroke-linecap="round" opacity="0.55"/>
+            <line x1="387" y1="372" x2="425" y2="392" stroke="#180d07" stroke-width="6" stroke-linecap="round" opacity="0.55"/>
+          </g>
+          <g id="cheese">
+            <path d="M138,348 C170,330 195,366 230,348 C270,326 300,366 340,348 C375,326 405,366 445,352 L448,330 L138,330 Z" fill="url(#heroCheeseGrad)"/>
+          </g>
+          <g id="lettuce">
+            <rect x="104" y="322" width="70" height="22" rx="11" fill="#7BA05B" transform="rotate(-10 139 333)"/>
+            <rect x="426" y="322" width="70" height="22" rx="11" fill="#6C9450" transform="rotate(10 461 333)"/>
+          </g>
+          <g id="tomato">
+            <circle cx="222" cy="330" r="17" fill="#C1432E"/>
+            <circle cx="222" cy="330" r="17" fill="none" stroke="#8f2f1f" stroke-width="2" opacity="0.5"/>
+            <circle cx="378" cy="330" r="17" fill="#C1432E"/>
+            <circle cx="378" cy="330" r="17" fill="none" stroke="#8f2f1f" stroke-width="2" opacity="0.5"/>
+          </g>
+          <g id="bunTop">
+            <path d="M132,326 C132,248 205,206 300,206 C395,206 468,248 468,326 Z" fill="url(#heroBunGrad)"/>
+            <ellipse cx="240" cy="242" rx="4" ry="6" fill="#fff6e6" opacity="0.85" transform="rotate(-20 240 242)"/>
+            <ellipse cx="272" cy="224" rx="4" ry="6" fill="#fff6e6" opacity="0.85" transform="rotate(-10 272 224)"/>
+            <ellipse cx="306" cy="216" rx="4" ry="6" fill="#fff6e6" opacity="0.85"/>
+            <ellipse cx="340" cy="222" rx="4" ry="6" fill="#fff6e6" opacity="0.85" transform="rotate(10 340 222)"/>
+            <ellipse cx="368" cy="238" rx="4" ry="6" fill="#fff6e6" opacity="0.85" transform="rotate(20 368 238)"/>
+            <ellipse cx="256" cy="262" rx="4" ry="6" fill="#fff6e6" opacity="0.75" transform="rotate(-15 256 262)"/>
+            <ellipse cx="346" cy="262" rx="4" ry="6" fill="#fff6e6" opacity="0.75" transform="rotate(15 346 262)"/>
+          </g>
+          <g id="steam">
+            <path class="steam-path" d="M255,200 C245,180 265,164 255,144 C245,124 265,108 258,88" fill="none" stroke="#F3EADB" stroke-width="4" stroke-linecap="round" opacity="0.5"/>
+            <path class="steam-path steam-2" d="M300,194 C290,172 312,154 300,132 C288,110 310,94 302,74" fill="none" stroke="#F3EADB" stroke-width="4" stroke-linecap="round" opacity="0.5"/>
+            <path class="steam-path steam-3" d="M345,200 C355,180 335,164 345,144 C355,124 335,108 342,88" fill="none" stroke="#F3EADB" stroke-width="4" stroke-linecap="round" opacity="0.5"/>
+          </g>
+        </g>
+      </svg>
+    </div>
+
+    <div class="chapters">
+      <div class="chapter">
+        <span class="eyebrow" data-i="h_eyebrow">Belgrade, open till 03:00</span>
+        <h1 class="ch-head" data-i="h1">When the lights go out.</h1>
+        <p class="ch-sub" data-i="h1s">The city sleeps. The grill doesn't.</p>
+        <div class="hero-cta">
+          <a href="#menu" class="cta-link"><span data-i="h_skip">Straight to the menu</span>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14M6 13l6 6 6-6"/></svg>
+          </a>
+        </div>
+      </div>
+      <div class="chapter">
+        <h2 class="ch-head" data-i="h2">Only the fire stays.</h2>
+        <p class="ch-sub" data-i="h2s">Beef, salt, flame. Nothing else.</p>
+      </div>
+      <div class="chapter">
+        <h2 class="ch-head" data-i="h3">Layer by layer.</h2>
+        <p class="ch-sub" data-i="h3s">The cheese melts right on time.</p>
+      </div>
+      <div class="chapter">
+        <h2 class="ch-head" data-i="h4">Yours, tonight.</h2>
+        <p class="ch-sub" data-i="h4s">Fresh. Hot. No waiting till morning.</p>
+        <div class="hero-cta">
+          <a href="#menu" class="cta-primary" data-i="h_order">Order tonight</a>
+          <a href="#book" class="cta-link"><span data-i="h_book">Book a table</span>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+          </a>
+        </div>
+      </div>
+    </div>
+    <div class="scroll-cue" aria-hidden="true"></div>
+  </div>
+</section>
+
+<div class="marquee" aria-hidden="true"><div class="marquee-track" id="marqueeTrack"></div></div>
+
+<!-- ============ SPECIALS ============ -->
+<section class="band" id="specials">
+  <div class="wrap">
+    <div class="specials-head">
+      <div>
+        <span class="eyebrow" data-i="sp_eyebrow">This week</span>
+        <h2 class="sec-head" data-i="sp_head">A different deal every night</h2>
+        <p class="sec-sub" data-i="sp_sub">Specials apply in the restaurant and on pickup orders. Just mention it at the counter.</p>
+      </div>
+    </div>
+    <div class="sp-grid" id="spGrid"></div>
+  </div>
+</section>
+
+<!-- ============ MENU ============ -->
+<section class="band alt" id="menu">
+  <div class="wrap">
+    <span class="eyebrow" data-i="m_eyebrow">Who works at night</span>
+    <h2 class="sec-head" data-i="m_head">The night shift menu</h2>
+    <p class="sec-sub" data-i="m_sub">Every burger is named after someone who works while the city sleeps. Everything is cooked to order, over live fire.</p>
+    <div class="menu-tools">
+      <div class="search-box">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+        <input type="search" id="menuSearch" data-ip="m_search_ph" data-ia="m_search_ph" placeholder="Search by name or ingredient" aria-label="Search by name or ingredient">
+      </div>
+      <div class="chips" id="chips" role="group">
+        <button class="chip active" type="button" data-filter="all" data-i="f_all">All</button>
+        <button class="chip" type="button" data-filter="hot" data-i="f_hot">Spicy</button>
+        <button class="chip" type="button" data-filter="veg" data-i="f_veg">Meat-free</button>
+        <button class="chip" type="button" data-filter="gf" data-i="f_gf">Gluten-free</button>
+      </div>
+    </div>
+    <div class="tabs" id="tabs" role="tablist"></div>
+    <div class="menu-grid" id="menuGrid"></div>
+    <noscript><p class="menu-note">The menu and online ordering need JavaScript turned on. Call us on 011 555 0312 to order by phone.</p></noscript>
+    <p class="menu-note" data-i="m_note">Tap a dish for ingredients, allergens and extras. Prices in RSD, VAT included.</p>
+  </div>
+</section>
+
+<!-- ============ SETS ============ -->
+<section class="band" id="sets">
+  <div class="wrap">
+    <div class="center">
+      <span class="eyebrow" data-i="cb_eyebrow">Save on your order</span>
+      <h2 class="sec-head" data-i="cb_head">Shift sets</h2>
+      <p class="sec-sub" data-i="cb_sub">Burger, side and drink at a price that makes sense at 2 a.m.</p>
+    </div>
+    <div class="combo-grid" id="comboGrid"></div>
+  </div>
+</section>
+
+<!-- ============ STORY ============ -->
+<section class="band alt" id="story">
+  <div class="wrap">
+    <div class="story-grid">
+      <div class="story-text">
+        <span class="eyebrow" data-i="st_eyebrow">Since 2021</span>
+        <h2 data-i="st_head">Why we open after midnight</h2>
+        <p data-i="st_p1">We think the best flavours come out once the rush is over. The meat rests, the fire breathes, and every burger is made for you, not for a queue.</p>
+        <p data-i="st_p2">We started in 2021 with one grill and the idea that the city deserves a real meal at two in the morning. Today the beef arrives fresh every morning, the buns are baked in our own bakery, and the sauces are still mixed by hand every evening before we open.</p>
+        <p class="name-note" data-i="st_p3">We named the place after the last ember: what is left when the flames settle. It makes no noise, but it stays warm the longest.</p>
+      </div>
+      <div class="story-visual">
+        <svg viewBox="0 0 300 300" aria-hidden="true">
+          <g stroke="#E0A04A" stroke-width="6" stroke-linecap="round" opacity="0.85">
+            <line x1="40" y1="200" x2="260" y2="200"/>
+            <line x1="40" y1="224" x2="260" y2="224"/>
+            <line x1="40" y1="248" x2="260" y2="248"/>
+          </g>
+          <path d="M90,200 C80,168 102,158 96,130 C122,146 116,172 132,166 C126,192 106,200 90,200Z" fill="#E0A04A" opacity="0.9"/>
+          <path d="M182,200 C171,162 197,150 189,116 C218,134 210,164 227,158 C220,188 200,200 182,200Z" fill="#F2C36F" opacity="0.85"/>
+          <path d="M150,112 C140,92 160,76 150,56" fill="none" stroke="#F3EADB" stroke-width="3" opacity="0.45" stroke-linecap="round"/>
+          <path d="M185,108 C178,90 195,76 188,58" fill="none" stroke="#F3EADB" stroke-width="3" opacity="0.4" stroke-linecap="round"/>
+        </svg>
+      </div>
+    </div>
+    <div class="stats">
+      <div class="stat"><b>2021</b><span data-i="st1">the year of our first grill</span></div>
+      <div class="stat"><b>180 g</b><span data-i="st2">of beef in every large burger</span></div>
+      <div class="stat"><b>03:00</b><span data-i="st3">last order, every night except Monday</span></div>
+    </div>
+    <div class="team">
+      <div class="t-card">
+        <div class="t-head"><div class="t-ava">VM</div><div><b>Vuk Marić</b><span class="role" data-i="t1_role">Head of grill</span></div></div>
+        <p data-i="t1_bio">Has worked the grill since our first night. Insists a patty is flipped exactly once and takes no counterarguments.</p>
+      </div>
+      <div class="t-card">
+        <div class="t-head"><div class="t-ava">IK</div><div><b>Iva Kostić</b><span class="role" data-i="t2_role">Bakery and sauces</span></div></div>
+        <p data-i="t2_bio">Mixes the sauces every evening before we open. The hot honey recipe lives in her head and nowhere else.</p>
+      </div>
+      <div class="t-card">
+        <div class="t-head"><div class="t-ava">NĐ</div><div><b>Nemanja Đorđević</b><span class="role" data-i="t3_role">Floor and shift</span></div></div>
+        <p data-i="t3_bio">Knows who sits at which table and what they ordered last time. Always the last one to switch off the lights.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ GALLERY ============ -->
+<section class="band" id="gallery">
+  <div class="wrap">
+    <div class="center">
+      <h2 class="sec-head" data-i="g_head">From our kitchen</h2>
+      <p class="sec-sub" data-i="g_sub">A few frames from the shift that starts when everyone else closes.</p>
+    </div>
+    <div class="g-grid" id="gGrid"></div>
+  </div>
+</section>
+
+<!-- ============ REVIEWS ============ -->
+<section class="band alt" id="reviews">
+  <div class="wrap">
+    <h2 class="sec-head" data-i="r_head">What the night owls say</h2>
+    <div class="rate-row">
+      <span class="rate-big" id="rateBig">4.8</span>
+      <div>
+        <div class="stars" aria-hidden="true" id="rateStars"></div>
+        <p class="rate-meta" data-i="r_meta">312 guest ratings since opening</p>
+      </div>
+    </div>
+    <div class="r-grid">
+      <article class="r-card">
+        <div class="stars" aria-hidden="true" data-stars="5"></div>
+        <blockquote data-i="r1">"After a night shift this is the only place where I eat like a human being. The Firefighter is dangerously good."</blockquote>
+        <div class="r-who"><span class="r-ava">MJ</span><div><b>Milan J.</b><span data-i="r1w">regular</span></div></div>
+      </article>
+      <article class="r-card">
+        <div class="stars" aria-hidden="true" data-stars="5"></div>
+        <blockquote data-i="r2">"Delivery arrived hot at half past midnight. The rosemary fries are now a must with everything."</blockquote>
+        <div class="r-who"><span class="r-ava">AS</span><div><b>Ana S.</b><span data-i="r2w">from the neighbourhood</span></div></div>
+      </article>
+      <article class="r-card">
+        <div class="stars" aria-hidden="true" data-stars="5"></div>
+        <blockquote data-i="r3">"The Baker is the first meat-free burger I ordered because it's actually good, not to be polite."</blockquote>
+        <div class="r-who"><span class="r-ava">TK</span><div><b>Tijana K.</b><span data-i="r3w">guest</span></div></div>
+      </article>
+    </div>
+    <div class="press">
+      <div><b>NOĆNI VODIČ</b><span data-i="pr1">Best late-night meal, 2024</span></div>
+      <div><b>GRADSKI ZALOGAJ</b><span data-i="pr2">Top 10 burgers in town</span></div>
+      <div><b>SMENA MAGAZIN</b><span data-i="pr3">The place that never sleeps</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ LOYALTY ============ -->
+<section class="band" id="club">
+  <div class="wrap loyal">
+    <div>
+      <span class="eyebrow" data-i="ly_eyebrow">Night Owl Club</span>
+      <h2 class="sec-head" data-i="ly_head">Every 9th burger is on us</h2>
+      <p class="sec-sub" data-i="ly_sub">Leave your phone number at the counter or with an online order. We count the stamps, you just eat. No app, no plastic card.</p>
+      <form class="ly-form" id="lyForm" novalidate>
+        <div class="ly-row">
+          <input class="inp" id="lyName" type="text" autocomplete="given-name" data-ip="ly_name_ph" data-ia="ly_name_ph" placeholder="First name" aria-label="First name">
+          <input class="inp" id="lyPhone" type="tel" autocomplete="tel" data-ip="ly_phone_ph" data-ia="ly_phone_ph" placeholder="Phone number" aria-label="Phone number">
+        </div>
+        <button type="submit" class="cta-framed" style="align-self:flex-start;" data-i="ly_btn">Join the club</button>
+        <p class="f-err" id="lyErr"></p>
+      </form>
+      <p class="note-ok" id="lyOk" hidden data-i="ly_ok">You're in. Your first stamp comes with your next burger.</p>
+    </div>
+    <div class="stamp-card" aria-hidden="true">
+      <h4>LAST EMBER</h4>
+      <span class="mono" data-i="ly_card">NIGHT OWL CARD, 3 OF 9 STAMPS</span>
+      <div class="stamps" id="stamps"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ BOOK ============ -->
+<section class="band alt" id="book">
+  <div class="wrap">
+    <div class="res-card">
+      <span class="eyebrow" data-i="rs_eyebrow">Save a seat</span>
+      <h2 class="sec-head" data-i="rs_head">Book a table</h2>
+      <p class="sec-sub" data-i="rs_sub">We take bookings from 20:00 to 02:00. For groups over 8, give us a call.</p>
+      <form id="resForm" class="form-grid" novalidate>
+        <div class="field">
+          <label for="rName" data-i="l_name">Full name</label>
+          <input id="rName" type="text" autocomplete="name" data-ip="ph_name" placeholder="e.g. Jovana Ilić">
+          <span class="f-err" id="rNameErr"></span>
+        </div>
+        <div class="field">
+          <label for="rPhone" data-i="l_phone">Phone</label>
+          <input id="rPhone" type="tel" autocomplete="tel" placeholder="06x xxx xxxx">
+          <span class="f-err" id="rPhoneErr"></span>
+        </div>
+        <div class="field">
+          <label for="rDate" data-i="l_date">Date</label>
+          <input id="rDate" type="date">
+          <span class="f-err" id="rDateErr"></span>
+        </div>
+        <div class="field">
+          <label for="rTime" data-i="l_time">Time</label>
+          <select id="rTime">
+            <option>20:00</option><option>20:30</option><option>21:00</option><option>21:30</option>
+            <option>22:00</option><option>22:30</option><option>23:00</option><option>23:30</option>
+            <option>00:00</option><option>00:30</option><option>01:00</option><option>01:30</option><option>02:00</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="rGuests" data-i="l_guests">Guests</label>
+          <select id="rGuests">
+            <option>1</option><option selected>2</option><option>3</option><option>4</option>
+            <option>5</option><option>6</option><option>7</option><option>8</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="rArea" data-i="l_area">Where would you like to sit</label>
+          <select id="rArea">
+            <option value="any" data-i="a_any">Anywhere</option>
+            <option value="hall" data-i="a_hall">Dining room</option>
+            <option value="garden" data-i="a_garden">Garden</option>
+            <option value="bar" data-i="a_bar">At the bar</option>
+          </select>
+        </div>
+        <div class="field full">
+          <label for="rNote" data-i="l_note">Note (optional)</label>
+          <input id="rNote" type="text" data-ip="ph_note" placeholder="birthday, window table, stroller">
+        </div>
+        <div class="form-actions">
+          <button type="submit" class="cta-framed" data-i="rs_btn">Book table</button>
+        </div>
+      </form>
+      <div class="form-ok" id="resOk" hidden>
+        <svg class="ok-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="m8 12.5 2.6 2.6L16 9.5"/></svg>
+        <h3 data-i="rs_ok_h">The table is yours.</h3>
+        <p id="resOkText"></p>
+        <p style="margin-top:8px;"><span data-i="rs_code">Booking number</span>: <code id="resCode"></code></p>
+        <button type="button" class="cta-link" id="resAgain" data-i="rs_again">Make another booking</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ EVENTS ============ -->
+<section class="band" id="events">
+  <div class="wrap">
+    <span class="eyebrow" data-i="ev_eyebrow">When there are more of you</span>
+    <h2 class="sec-head" data-i="ev_head">Parties, catering and gift cards</h2>
+    <p class="sec-sub" data-i="ev_sub">We close the dining room for your group, or bring the grill and the crew to you.</p>
+    <div class="ev-grid">
+      <div class="ev-card">
+        <h3 data-i="ev1_h">Parties and catering</h3>
+        <p data-i="ev1_p">Birthdays, farewells, team nights and house parties. Tell us the headcount and the date, and we send a menu proposal within one day.</p>
+        <ul class="ev-list">
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="m5 13 4 4L19 7"/></svg><span data-i="ev_l1">Dining room for up to 40 people, booked 7 days ahead</span></li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="m5 13 4 4L19 7"/></svg><span data-i="ev_l2">Catering with a live grill at your address, from 20 people</span></li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="m5 13 4 4L19 7"/></svg><span data-i="ev_l3">Fixed menu per person or pay per order</span></li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="m5 13 4 4L19 7"/></svg><span data-i="ev_l4">Meat-free and gluten-free options for the whole table</span></li>
+        </ul>
+        <div style="margin-top:24px;">
+          <button type="button" class="cta-framed" data-prefill="event" data-i="ev_btn">Send an inquiry</button>
+        </div>
+      </div>
+      <div class="ev-card">
+        <h3 data-i="ev2_h">Gift card</h3>
+        <p data-i="ev2_p">For someone who likes to eat late. The gift card arrives by email, is valid for one year and works in the restaurant and for delivery.</p>
+        <div class="vouchers" id="voucherRow"></div>
+        <p class="small-note" data-i="ev2_note">Add a gift card to your order like any dish. The code to redeem it arrives right after checkout.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ JOBS ============ -->
+<section class="band alt" id="jobs">
+  <div class="wrap">
+    <span class="eyebrow" data-i="jb_eyebrow">Work with us</span>
+    <h2 class="sec-head" data-i="jb_head">We're hiring for the night shift</h2>
+    <p class="sec-sub" data-i="jb_sub">If you work better at night than in the morning, you're in the right place. Paid on time, a meal every shift, a ride home after 2 a.m.</p>
+    <div class="jobs">
+      <div class="job">
+        <div class="job-info">
+          <h3 data-i="j1_t">Grill cook</h3>
+          <p data-i="j1_d">Grill experience helps, but we also train people who want to learn.</p>
+          <div class="job-meta"><span data-i="j_full">Full time</span><span data-i="j_h1">20:00 to 03:30</span><span data-i="j_city">Belgrade</span></div>
+        </div>
+        <button type="button" class="cta-framed" data-prefill="job" data-job="j1_t" data-i="jb_btn">Apply</button>
+      </div>
+      <div class="job">
+        <div class="job-info">
+          <h3 data-i="j2_t">Server</h3>
+          <p data-i="j2_d">A 40-seat dining room and a bar. We want someone who remembers faces and likes the night crowd.</p>
+          <div class="job-meta"><span data-i="j_fullpart">Full or part time</span><span data-i="j_shifts">4 to 6 shifts a week</span></div>
+        </div>
+        <button type="button" class="cta-framed" data-prefill="job" data-job="j2_t" data-i="jb_btn">Apply</button>
+      </div>
+      <div class="job">
+        <div class="job-info">
+          <h3 data-i="j3_t">Delivery driver</h3>
+          <p data-i="j3_d">Your own scooter or car. The delivery area is 4 km, and we cover fuel and upkeep.</p>
+          <div class="job-meta"><span data-i="j_free">Freelance</span><span data-i="j_h3">22:00 to 02:30</span></div>
+        </div>
+        <button type="button" class="cta-framed" data-prefill="job" data-job="j3_t" data-i="jb_btn">Apply</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FAQ ============ -->
+<section class="band" id="faq">
+  <div class="wrap">
+    <h2 class="sec-head center" data-i="fq_head">Questions we hear a lot</h2>
+    <div class="faq-list" id="faqList"></div>
+  </div>
+</section>
+
+<!-- ============ CONTACT ============ -->
+<section class="band alt" id="contact">
+  <div class="wrap">
+    <h2 class="sec-head" data-i="ct_head">Find us after dark</h2>
+    <p class="sec-sub" data-i="ct_sub">On the corner where the last traffic light goes off. Look for the gold flame above the door.</p>
+    <div class="visit-grid">
+      <div class="panel">
+        <div class="v-block">
+          <h4 data-i="ct_hours">Opening hours</h4>
+          <ul class="hours" id="hoursList"></ul>
+        </div>
+        <div class="v-block">
+          <h4 data-i="ct_contact">Contact</h4>
+          <p class="v-row">
+            <svg class="icon-s" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 21s7-7.2 7-12a7 7 0 1 0-14 0c0 4.8 7 12 7 12z"/><circle cx="12" cy="9" r="2.5"/></svg>
+            <span class="val">Ulica Plamena 12, Beograd</span>
+            <button type="button" class="copy-btn" data-copy="Ulica Plamena 12, Beograd" data-i="copy">Copy</button>
+          </p>
+          <p class="v-row">
+            <svg class="icon-s" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 2 .7 2.9a2 2 0 0 1-.5 2.1L8 10a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.5c.9.3 1.9.6 2.9.7a2 2 0 0 1 1.7 2Z"/></svg>
+            <a class="val" href="tel:+381115550312">011 555 0312</a>
+            <button type="button" class="copy-btn" data-copy="011 555 0312" data-i="copy">Copy</button>
+          </p>
+          <p class="v-row">
+            <svg class="icon-s" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 6L2 7"/></svg>
+            <a class="val" href="mailto:hello@lastember.rs">hello@lastember.rs</a>
+            <button type="button" class="copy-btn" data-copy="hello@lastember.rs" data-i="copy">Copy</button>
+          </p>
+        </div>
+        <div class="v-block">
+          <h4 data-i="ct_zone">Check the delivery area</h4>
+          <div class="zone-row">
+            <input class="inp" type="text" id="zoneInput" data-ip="zone_ph" data-ia="zone_ph" placeholder="Neighbourhood, e.g. Vračar" aria-label="Neighbourhood, e.g. Vračar">
+            <button class="btn-ghost" id="zoneBtn" type="button" data-i="zone_btn">Check</button>
+          </div>
+          <p class="zone-out" id="zoneOut"></p>
+        </div>
+        <div class="visit-map">
+          <svg viewBox="0 0 560 420" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+            <rect width="560" height="420" fill="#141a35"/>
+            <g stroke="#20294d" stroke-width="14" stroke-linecap="round">
+              <line x1="0" y1="90" x2="560" y2="90"/><line x1="0" y1="210" x2="560" y2="230"/><line x1="0" y1="340" x2="560" y2="330"/>
+              <line x1="110" y1="0" x2="90" y2="420"/><line x1="300" y1="0" x2="310" y2="420"/><line x1="470" y1="0" x2="480" y2="420"/>
+            </g>
+            <g stroke="#2a3560" stroke-width="5" stroke-linecap="round" opacity="0.7">
+              <line x1="0" y1="150" x2="560" y2="158"/><line x1="0" y1="282" x2="560" y2="276"/>
+              <line x1="200" y1="0" x2="196" y2="420"/><line x1="392" y1="0" x2="398" y2="420"/>
+            </g>
+            <line x1="0" y1="30" x2="560" y2="400" stroke="#2f3a68" stroke-width="10" stroke-linecap="round" opacity="0.8"/>
+            <circle cx="310" cy="222" r="120" fill="none" stroke="#E0A04A" stroke-width="1.5" stroke-dasharray="6 6" opacity="0.45"/>
+            <circle cx="310" cy="222" r="34" fill="#E0A04A" opacity="0.14"/>
+            <circle cx="310" cy="222" r="18" fill="#E0A04A" opacity="0.22"/>
+            <g transform="translate(310 210)">
+              <path d="M0,26 C-12,10 -16,2 -16,-6 A16,16 0 1 1 16,-6 C16,2 12,10 0,26 Z" fill="#E0A04A"/>
+              <circle cx="0" cy="-6" r="6.5" fill="#0E1328"/>
+            </g>
+            <text x="332" y="200" font-family="Big Shoulders Display, Arial Narrow, sans-serif" font-size="22" font-weight="800" fill="#F3EADB">Last Ember</text>
+            <text x="322" y="352" font-family="IBM Plex Mono, monospace" font-size="12" fill="#F2C36F" opacity="0.8" id="mapZone">4 km</text>
+          </svg>
+        </div>
+        <a class="cta-link" href="https://maps.google.com/?q=Ulica+Plamena+12+Beograd" target="_blank" rel="noopener"><span data-i="ct_maps">Open in Maps</span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg>
+        </a>
+      </div>
+
+      <div class="right-col">
+        <div class="panel">
+          <div>
+            <h3 style="font-size:2.1rem; margin-bottom:8px;" data-i="cf_head">Send us a message</h3>
+            <p class="small-note" data-i="cf_sub">Questions, feedback, parties or a job application. We answer within one working day.</p>
+          </div>
+          <form id="cfForm" class="form-grid" novalidate>
+            <div class="field">
+              <label for="cfName" data-i="l_name">Full name</label>
+              <input id="cfName" type="text" autocomplete="name">
+              <span class="f-err" id="cfNameErr"></span>
+            </div>
+            <div class="field">
+              <label for="cfEmail" data-i="l_email">Email</label>
+              <input id="cfEmail" type="email" autocomplete="email">
+              <span class="f-err" id="cfEmailErr"></span>
+            </div>
+            <div class="field full">
+              <label for="cfTopic" data-i="l_topic">Topic</label>
+              <select id="cfTopic">
+                <option value="general" data-i="tp_general">General question</option>
+                <option value="feedback" data-i="tp_feedback">Feedback on a visit</option>
+                <option value="event" data-i="tp_event">Party or catering</option>
+                <option value="job" data-i="tp_job">Job application</option>
+                <option value="lost" data-i="tp_lost">Lost property</option>
+                <option value="press" data-i="tp_press">Press</option>
+              </select>
+            </div>
+            <div class="field full">
+              <label for="cfMsg" data-i="l_msg">Message</label>
+              <textarea id="cfMsg"></textarea>
+              <span class="f-err" id="cfMsgErr"></span>
+            </div>
+            <div class="form-actions"><button type="submit" class="btn-solid" data-i="cf_btn">Send message</button></div>
+          </form>
+          <div class="form-ok" id="cfOk" hidden>
+            <svg class="ok-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="m8 12.5 2.6 2.6L16 9.5"/></svg>
+            <h3 data-i="cf_ok_h">Message received</h3>
+            <p id="cfOkText"></p>
+            <button type="button" class="cta-link" id="cfAgain" data-i="cf_again">Write another message</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FOOTER ============ -->
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="f-grid">
+      <div class="f-brand">
+        <a href="#top" class="logo">
+          <svg class="logo-mark" viewBox="0 0 32 32" aria-hidden="true">
+            <path d="M10,26 C7,18 13,15 11,8 C18,12 16,19 20,17 C19,24 14,26 10,26 Z" fill="#E0A04A"/>
+            <path d="M20,26 C18,20 23,18 22,12 C27,15 25,21 28,20 C27,25 23,26 20,26 Z" fill="#F2C36F" opacity="0.85"/>
+          </svg>
+          LAST EMBER
+        </a>
+        <p data-i="ft_tag">When the lights go out, the last ember stays. Live fire, fresh beef, house sauces.</p>
+        <div class="socials">
+          <button type="button" class="soc" data-social aria-label="Instagram">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
+          </button>
+          <button type="button" class="soc" data-social aria-label="TikTok">
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M16.5 3c.4 2.1 1.8 3.6 4 3.9v3c-1.5 0-2.9-.5-4-1.3v6.6a6.1 6.1 0 1 1-6.1-6.1c.3 0 .7 0 1 .1v3.2a2.9 2.9 0 1 0 2 2.8V3h3.1Z"/></svg>
+          </button>
+          <button type="button" class="soc" data-social aria-label="Facebook">
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M13.5 21v-7h2.4l.4-3h-2.8V9.1c0-.9.3-1.5 1.6-1.5h1.3V5c-.2 0-1-.1-2-.1-2 0-3.4 1.2-3.4 3.5V11H8.5v3H11v7h2.5Z"/></svg>
+          </button>
+        </div>
+      </div>
+      <div class="f-col">
+        <h4 data-i="ft_nav">Explore</h4>
+        <ul>
+          <li><a href="#menu" data-i="nav_menu">Menu</a></li>
+          <li><a href="#specials" data-i="nav_deals">Deals</a></li>
+          <li><a href="#story" data-i="nav_story">Story</a></li>
+          <li><a href="#gallery" data-i="nav_gallery">Gallery</a></li>
+          <li><a href="#book" data-i="nav_book">Book a table</a></li>
+          <li><a href="#events" data-i="nav_events">Events</a></li>
+          <li><a href="#jobs" data-i="nav_jobs">Jobs</a></li>
+          <li><a href="#faq" data-i="nav_faq">FAQ</a></li>
+        </ul>
+      </div>
+      <div class="f-col">
+        <h4 data-i="ct_contact">Contact</h4>
+        <ul>
+          <li><span class="txt">Ulica Plamena 12, Beograd</span></li>
+          <li><span class="txt">011 555 0312</span></li>
+          <li><span class="txt">hello@lastember.rs</span></li>
+          <li><span class="txt">jobs@lastember.rs</span></li>
+        </ul>
+        <h4 style="margin-top:22px;" data-i="ft_legal">Legal</h4>
+        <ul>
+          <li><button type="button" class="lnk" data-legal="privacy" data-i="lg_privacy">Privacy policy</button></li>
+          <li><button type="button" class="lnk" data-legal="terms" data-i="lg_terms">Terms of use</button></li>
+          <li><button type="button" class="lnk" data-legal="cookies" data-i="lg_cookies">Cookies</button></li>
+        </ul>
+      </div>
+      <div class="f-col">
+        <h4 data-i="ft_news">Night Mail</h4>
+        <p class="txt" data-i="ft_news_p">Once a month: new burgers and secret deals.</p>
+        <form class="news-row" id="newsForm" novalidate>
+          <input class="inp" type="email" id="newsEmail" data-ip="news_ph" data-ia="news_ph" placeholder="you@email.com" aria-label="you@email.com">
+          <button type="submit" class="btn-ghost" data-i="news_btn">Sign up</button>
+        </form>
+        <p class="f-err" id="newsErr"></p>
+        <p class="note-ok" id="newsOk" hidden data-i="news_ok">Thanks! See you in your inbox.</p>
+      </div>
+    </div>
+    <div class="f-bottom">
+      <span data-i="ft_copy">© 2026 Last Ember d.o.o., Belgrade. Tax ID 113456789.</span>
+      <span data-i="ft_demo">Demo site: orders, bookings and messages are simulated.</span>
+    </div>
+  </div>
+</footer>
+
+<!-- ============ CART DRAWER ============ -->
+<div class="overlay" id="overlay"></div>
+<aside class="drawer" id="drawer" aria-hidden="true" aria-labelledby="drawerTitle">
+  <div class="drawer-head">
+    <h3 id="drawerTitle" data-i="cart_title">Your order</h3>
+    <button class="x-btn" id="drawerClose" type="button" data-ia="aria_close" aria-label="Close">&times;</button>
+  </div>
+  <div class="drawer-scroll">
+    <div class="cart-empty" id="cartEmpty">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+      <p data-ih="cart_empty">Your order is empty.<br>The grill is waiting.</p>
+      <a href="#menu" class="cta-link" id="browseMenu" data-i="cart_browse">Browse the menu</a>
+    </div>
+
+    <div id="orderOk" hidden>
+      <div class="ok-head">
+        <h3 data-i="ok_h">Order received</h3>
+        <p id="okText"></p>
+      </div>
+      <div class="ticket" id="ticket"></div>
+      <div class="tracker" id="tracker"></div>
+      <button type="button" class="cta-link" id="newOrder" style="margin-top:14px;" data-i="new_order">Start a new order</button>
+    </div>
+
+    <div id="cartBody" hidden>
+      <p class="closed-note" id="closedNote" hidden></p>
+      <ul id="cartList"></ul>
+      <div id="upsell"></div>
+
+      <p class="mini-label" data-i="how">How</p>
+      <div class="seg" role="group">
+        <button type="button" class="active" id="modePickup" data-i="pickup">Pickup</button>
+        <button type="button" id="modeDelivery" data-i="delivery">Delivery</button>
+      </div>
+
+      <p class="mini-label"><label for="whenSel" data-i="when">When</label></p>
+      <select class="inp" id="whenSel"></select>
+
+      <p class="mini-label"><label for="promoInput" data-i="promo">Promo code</label></p>
+      <div class="promo-row">
+        <input class="inp" type="text" id="promoInput" data-ip="promo_ph" placeholder="e.g. EMBER10">
+        <button type="button" class="btn-ghost" id="promoBtn" data-i="apply">Apply</button>
+      </div>
+      <p class="promo-msg" id="promoMsg"></p>
+
+      <p class="mini-label" data-i="tip">Tip for the crew</p>
+      <div class="seg" style="--n:4" role="group" id="tipSeg">
+        <button type="button" class="active" data-tip="0" data-i="tip_none">None</button>
+        <button type="button" data-tip="5">5%</button>
+        <button type="button" data-tip="10">10%</button>
+        <button type="button" data-tip="15">15%</button>
+      </div>
+
+      <div class="totals">
+        <div><span data-i="subtotal">Subtotal</span><span id="tSub">0</span></div>
+        <div class="disc" id="tDiscRow" hidden><span id="tDiscLabel"></span><span id="tDisc">0</span></div>
+        <div id="tDelRow" hidden><span data-i="del_fee">Delivery</span><span id="tDel">0</span></div>
+        <div id="tTipRow" hidden><span data-i="tip_row">Tip</span><span id="tTip">0</span></div>
+        <div class="grand"><span data-i="total">Total</span><span id="tGrand">0</span></div>
+      </div>
+
+      <div class="co-fields">
+        <input class="inp" type="text" id="coName" autocomplete="name" data-ip="co_name" data-ia="co_name" placeholder="Full name" aria-label="Full name">
+        <input class="inp" type="tel" id="coPhone" autocomplete="tel" data-ip="co_phone" data-ia="co_phone" placeholder="Phone" aria-label="Phone">
+        <input class="inp" type="text" id="coAddr" autocomplete="street-address" data-ip="co_addr" data-ia="co_addr" placeholder="Delivery address" aria-label="Delivery address" hidden>
+        <textarea class="inp" id="coNote" data-ip="co_note" data-ia="co_note" placeholder="Note for the kitchen or courier (optional)" aria-label="Note"></textarea>
+      </div>
+
+      <p class="mini-label" data-i="pay">Payment</p>
+      <div class="seg" role="group">
+        <button type="button" class="active" data-pay="cash" data-i="pay_cash">Cash</button>
+        <button type="button" data-pay="card" data-i="pay_card">Card</button>
+      </div>
+      <p class="free-note" style="text-align:left;" data-i="pay_note">You pay on pickup or to the courier.</p>
+
+      <p class="co-err" id="coErr"></p>
+      <button class="btn-solid" id="orderSubmit" type="button">Place order</button>
+      <p class="free-note" data-i="free_note">Free delivery on orders over 2,000 RSD.</p>
+    </div>
+  </div>
+</aside>
+
+<!-- ============ ITEM MODAL ============ -->
+<div class="modal" id="itemModal" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="imName">
+  <div class="modal-card">
+    <button class="x-btn" id="imClose" type="button" data-ia="aria_close" aria-label="Close">&times;</button>
+    <div class="modal-art" id="imArt"></div>
+    <div class="modal-body">
+      <h3 id="imName"></h3>
+      <p class="modal-desc" id="imDesc"></p>
+      <div class="im-facts" id="imFacts"></div>
+      <p class="im-sub" data-i="im_allergens">Allergens</p>
+      <p class="im-aller" id="imAller"></p>
+      <div id="imExtrasBlock">
+        <p class="im-sub" data-i="im_extras">Extras</p>
+        <div class="extras" id="imExtras"></div>
+      </div>
+      <div class="modal-foot">
+        <div class="step">
+          <button type="button" id="imMinus" data-ia="qty_minus" aria-label="Fewer">&minus;</button>
+          <output id="imQty">1</output>
+          <button type="button" id="imPlus" data-ia="qty_plus" aria-label="More">+</button>
+        </div>
+        <button class="btn-solid" id="imAdd" type="button">Add</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============ LEGAL MODAL ============ -->
+<div class="modal" id="legalModal" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="lgTitle">
+  <div class="modal-card">
+    <button class="x-btn" id="lgClose" type="button" data-ia="aria_close" aria-label="Close">&times;</button>
+    <div class="legal-body">
+      <h3 id="lgTitle"></h3>
+      <div id="lgBody"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ============ LIGHTBOX ============ -->
+<div class="lightbox" id="lightbox" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="lbCap">
+  <button class="x-btn" id="lbClose" type="button" data-ia="aria_close" aria-label="Close">&times;</button>
+  <div class="lb-frame" id="lbFrame"></div>
+  <div class="lb-bar">
+    <p class="lb-cap" id="lbCap"></p>
+    <div class="lb-nav">
+      <button class="x-btn" id="lbPrev" type="button" data-ia="aria_prev" aria-label="Previous">&#8249;</button>
+      <button class="x-btn" id="lbNext" type="button" data-ia="aria_next" aria-label="Next">&#8250;</button>
+    </div>
+  </div>
+</div>
+
+<!-- ============ COOKIE / TOP / TOASTS ============ -->
+<div class="cookie" id="cookie" role="region" data-ia="aria_cookie" aria-label="Cookies">
+  <p data-i="ck_text">We only use the cookies the order basket needs. If you agree, we also count visits so we know when to put another cook on the grill.</p>
+  <div class="cookie-btns">
+    <button class="ck-btn" id="ckOnly" type="button" data-i="ck_only">Essential only</button>
+    <button class="ck-btn main" id="ckAll" type="button" data-i="ck_all">Accept all</button>
+  </div>
+</div>
+
+<button class="to-top" id="toTop" type="button" data-ia="aria_top" aria-label="Back to top">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
+</button>
+
+<div class="toasts" id="toasts" aria-live="polite"></div>
+
+<noscript><style>
+  .chapter{ opacity:1 !important; transform:none !important; position:static !important; margin-bottom:24px; }
+  .journey-stage{ position:relative !important; height:auto !important; padding-block:140px 80px; }
+  .journey{ height:auto !important; }
+  .scroll-cue, .status-pill, .cookie, .to-top, .lang, .cart-btn{ display:none !important; }
+</style></noscript>
+
+<script src="js/translations.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>
