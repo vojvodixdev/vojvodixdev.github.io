@@ -1,20 +1,28 @@
 # Portfolio – Nikola Vojvodić
 
-Statički sajt bez build koraka. Sve je u ovom folderu:
+Statički sajt bez build koraka, objavljen na **https://vojvodixdev.github.io**.
 
 ```
 index.html                 portfolio (stilovi i skripte su u fajlu)
 img/                       slike projekata
-projekti/flakeradar/       FlakeRadar demo uživo (statička verzija sa primerima podataka)
-projekti/knjigoteka/       Knjigoteka uživo (dugme "Live pregled")
-projekti/last-ember/       Last Ember uživo
-preuzimanje/*.zip          izvorni kod za dugme "Preuzmi kod"
 cv/Nikola_Vojvodic_CV.pdf  CV za dugmad "CV" (zameni fajl istim imenom kad ga ažuriraš)
 ```
 
+## Projekti
+
+Svaki projekat ima svoj repozitorijum i svoj sajt na GitHub Pages, koji se sam ažurira posle svakog `git push`. Portfolio samo linkuje na njih:
+
+| Projekat | Live | Kod |
+|---|---|---|
+| FlakeRadar | https://vojvodixdev.github.io/flakeradar/ | https://github.com/vojvodixdev/flakeradar |
+| Knjigoteka | https://vojvodixdev.github.io/knjigoteka/ | https://github.com/vojvodixdev/knjigoteka |
+| Last Ember | https://vojvodixdev.github.io/last-ember/ | https://github.com/vojvodixdev/last-ember |
+
+Kad menjaš neki projekat, menjaš ga u njegovom repozitorijumu. Ovde treba nešto promeniti samo ako se promeni opis projekta ili slika.
+
 ## Objavljivanje
 
-Sajt nema build korak: ceo sadržaj ovog foldera samo se postavi na hosting (preko panela hostinga ili FTP-a), tako da `index.html` bude u korenu domena. Folderi `projekti/`, `img/`, `preuzimanje/` i `cv/` moraju ostati pored njega.
+Repozitorijum se zove `vojvodixdev.github.io`, a sajt se objavljuje iz grane `main` (Settings → Pages → Deploy from a branch → `main`, `/ (root)`). Posle `git push` sajt se osveži za minut-dva.
 
 ## Kontakt forma
 
@@ -25,26 +33,5 @@ Forma šalje poruke preko Formspree-a (`https://formspree.io/f/mppqglyp`). Poruk
 - Srpski tekst je direktno u `index.html`, engleski prevod je u objektu `EN` u skripti na dnu fajla. Sadržaj prozora `nikola.js` je u objektu `CODE`.
 - Projekti i alati su u `index.html`.
 - Boje tamne teme su u `:root`, svetle u `:root[data-mode="light"]` na vrhu `<style>`.
-- Novi projekat: kopiraj jedan `<article class="proj">` blok, ubaci folder u `projekti/` i zip u `preuzimanje/`. Projekti se smenjuju levo-desno: svaki drugi `<article>` ima klasu `flip`.
+- Novi projekat: kopiraj jedan `<article class="proj">` blok, dodaj slike u `img/` (desktop 1600×1000, telefon 500×1082, format `.webp`) i upiši linkove ka sajtu i repozitorijumu. Projekti se smenjuju levo-desno: svaki drugi `<article>` ima klasu `flip`.
 - U tabeli alata (`TOOLS` u skripti) slova u poslednjoj koloni govore u kom projektu se alat vidi: F = FlakeRadar, K = Knjigoteka, L = Last Ember.
-- Kad menjaš Knjigoteku, povećaj `VERSION` u `projekti/knjigoteka/sw.js` da instalirane kopije dobiju novu verziju.
-
-## Napomena za FlakeRadar
-
-Pravi FlakeRadar ima server i bazu, a ovde je statička demo verzija koja radi bez servera i čak kad se otvori dvoklikom: podaci iz demo projekata su ugrađeni u JavaScript, a datumi se pri otvaranju pomeraju tako da uvek izgledaju sveže. Dugme „Kod na GitHubu” vodi na repozitorijum.
-
-Kad promeniš FlakeRadar, novu demo verziju napraviš u folderu FlakeRadar projekta:
-
-```bash
-npm run build:demo
-```
-
-i sadržaj foldera `apps/web/dist-demo/` iskopiraš u `projekti/flakeradar/` (stari sadržaj prvo obriši).
-
-## Napomena za Knjigoteku
-
-Kopija u `projekti/knjigoteka/` je spakovana tako da radi i kad se sajt otvori dvoklikom na `index.html`: svi JavaScript moduli su spojeni u `js/app.bundle.js`, a fontovi su ugrađeni u `css/app.css`. Originalni kod sa modulima je u `preuzimanje/knjigoteka.zip`. Kad menjaš Knjigoteku, ponovo napravi bundle:
-
-```bash
-npx esbuild js/app.js --bundle --format=iife --target=es2020 --outfile=js/app.bundle.js
-```
