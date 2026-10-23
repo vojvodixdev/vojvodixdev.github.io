@@ -50,8 +50,7 @@
   --blue-ink: #020611;
   --ok: #4ade80;
   --err: #ff7a85;
-  --orb: rgba(77, 141, 255, .32);
-  --shadow: rgba(0, 25, 100, .6);
+  --shadow: rgba(0, 0, 0, .5);
   --syn-kw: #c79bff;
   --syn-prop: #8fc1ff;
   --syn-str: #7fd8c9;
@@ -64,7 +63,7 @@
   --c-qa: #a08cff;
   --c-tool: #3fd6a6;
   --c-data: #ffb35c;
-  --grad: linear-gradient(100deg, #4d8dff 0%, #38c6f4 35%, #8b8cff 70%, #4d8dff 100%);
+  --grad: linear-gradient(90deg, #4d8dff, #38c6f4);
   --f-display: "Bricolage Grotesque", "Arial Narrow", system-ui, sans-serif;
   --f-body: "Instrument Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
   --f-mono: "JetBrains Mono", ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
@@ -84,7 +83,6 @@
   --blue-ink: #ffffff;
   --ok: #16a34a;
   --err: #cf2539;
-  --orb: rgba(31, 95, 224, .16);
   --shadow: rgba(20, 50, 120, .18);
   --syn-kw: #8a3ffc;
   --syn-prop: #1f5fe0;
@@ -98,7 +96,7 @@
   --c-qa: #6a4fe0;
   --c-tool: #0f8f6a;
   --c-data: #b4610a;
-  --grad: linear-gradient(100deg, #1f5fe0 0%, #0a87b8 35%, #5b45d6 70%, #1f5fe0 100%);
+  --grad: linear-gradient(90deg, #1f5fe0, #0a87b8);
   color-scheme: light;
 }
 * { box-sizing: border-box; }
@@ -142,26 +140,19 @@ h1, h2, h3 { font-family: var(--f-display); text-wrap: balance; margin: 0; line-
 
 /* Nav */
 header.nav {
-  position: sticky; top: calc(env(safe-area-inset-top, 0px) + 12px); z-index: 9; margin-top: 12px;
+  position: sticky; top: env(safe-area-inset-top, 0px); z-index: 9;
+  background: var(--bg); border-bottom: 1px solid var(--line);
   padding-left: max(16px, env(safe-area-inset-left, 0px));
   padding-right: max(16px, env(safe-area-inset-right, 0px));
 }
 .nav-in { max-width: 1180px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; gap: 10px;
-  padding: 6px 8px 6px 6px; border: 1px solid var(--line); border-radius: 999px;
-  background: color-mix(in srgb, var(--surface) 80%, transparent);
-  backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); }
-.logo { position: relative; display: grid; place-items: center; width: 42px; height: 42px; flex: none;
-  border-radius: 50%; text-decoration: none; isolation: isolate;
-  background: linear-gradient(145deg, #6ea4ff 0%, #2f6cf0 48%, #1637a8 100%);
-  box-shadow: inset 0 1px 0 rgba(255,255,255,.35), inset 0 -2px 6px rgba(4,10,40,.35), 0 8px 22px -8px rgba(47,108,240,.75);
-  transition: transform .25s, box-shadow .25s; }
-.logo::after { content: ""; position: absolute; inset: 0; border-radius: inherit; z-index: -1;
-  background: radial-gradient(120% 80% at 20% 0%, rgba(255,255,255,.28), transparent 55%); }
-.logo span { font: 800 17px/1 var(--f-display); letter-spacing: -.07em; color: #fff; transform: translateX(-.05em);
-  text-shadow: 0 1px 1px rgba(4,10,40,.35); }
-.logo span b { font-weight: 800; color: #cfe0ff; }
-.logo i { position: absolute; right: 1px; bottom: 1px; width: 10px; height: 10px; border: 2px solid var(--surface); border-radius: 50%; background: var(--ok); }
-.logo:hover { transform: rotate(-6deg) scale(1.05); box-shadow: inset 0 1px 0 rgba(255,255,255,.35), inset 0 -2px 6px rgba(4,10,40,.35), 0 10px 26px -6px rgba(47,108,240,.9); }
+  padding: 10px 0; }
+/* logo: ravan kvadrat, bez sjaja i senki */
+.logo { display: grid; place-items: center; width: 40px; height: 40px; flex: none; border-radius: 10px; text-decoration: none;
+  background: var(--blue); transition: background .2s; }
+.logo span { font: 700 15px/1 var(--f-mono); letter-spacing: -.02em; color: var(--blue-ink); }
+.logo span b { font-weight: 700; }
+.logo:hover { background: var(--blue-soft); }
 .nav ul { list-style: none; display: flex; gap: 2px; margin: 0; padding: 0; font-size: 14px; }
 .nav ul a { position: relative; display: block; text-decoration: none; color: var(--muted); padding: 8px 12px; transition: color .2s; }
 .nav ul a::after { content: ""; position: absolute; left: 12px; right: 12px; bottom: 3px; height: 2px; border-radius: 2px;
@@ -197,13 +188,7 @@ header.nav {
 @media (max-width: 380px) { .nav .hire { display: none; } }
 
 /* Hero */
-.hero { position: relative; overflow: hidden; margin-top: -76px; padding-top: 76px; }
-.hero::before { content: ""; position: absolute; width: 900px; height: 900px; right: -300px; top: -340px; pointer-events: none;
-  background: radial-gradient(closest-side, var(--orb), transparent); animation: orb 14s ease-in-out infinite alternate; }
-@keyframes orb { to { transform: translate(-120px, 80px) scale(1.12); } }
-/* svetlo koje prati miša */
-.spot { position: absolute; inset: 0; z-index: 1; pointer-events: none;
-  background: radial-gradient(380px circle at calc(50% + var(--mx, 0) * 90%) calc(38% + var(--my, 0) * 80%), color-mix(in srgb, var(--blue) 13%, transparent), transparent 70%); }
+.hero { position: relative; overflow: hidden; }
 .hero .wrap { z-index: 2; }
 .hero .wrap { position: relative; padding-block: 80px 112px; display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 500px); gap: 56px; align-items: center; }
 /* polje tačaka koje viri iza prozora editora */
@@ -211,15 +196,10 @@ header.nav {
   background: radial-gradient(var(--blue) 1.3px, transparent 1.6px) 0 0 / 16px 16px; opacity: .35;
   -webkit-mask-image: linear-gradient(135deg, transparent 15%, #000 70%); mask-image: linear-gradient(135deg, transparent 15%, #000 70%); }
 .kicker { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 20px; font: 13px var(--f-mono); color: var(--muted); }
-.kicker .avail { display: inline-flex; align-items: center; gap: 8px; color: var(--fg); border: 1px solid var(--line); background: var(--surface); border-radius: 999px; padding: 5px 12px 5px 10px; }
+.kicker .avail { display: inline-flex; align-items: center; gap: 9px; color: var(--muted); }
 .kicker .avail i { position: relative; width: 8px; height: 8px; border-radius: 50%; background: var(--ok); }
-/* talas oko zelene tačke, kao signal "online" */
-.kicker .avail i::after { content: ""; position: absolute; inset: 0; border-radius: 50%; background: var(--ok); animation: ping 2.2s cubic-bezier(0, 0, .2, 1) infinite; }
-@keyframes ping { 75%, 100% { transform: scale(2.6); opacity: 0; } }
 .ime { margin: 26px 0 20px; font-size: clamp(3.4rem, 8.4vw, 7.4rem); font-weight: 800; letter-spacing: -.045em; line-height: .9; }
-.ime span { display: block; padding-bottom: .06em; color: var(--blue); background: var(--grad); background-size: 220% 100%;
-  -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; animation: shine 7s linear infinite; }
-@keyframes shine { to { background-position: -220% 0; } }
+.ime span { display: block; padding-bottom: .06em; color: var(--blue); }
 .hero-in > * { animation: rise .9s cubic-bezier(.2,.7,.2,1) both; animation-delay: calc(var(--i, 0) * 90ms + 80ms); }
 @keyframes rise { from { opacity: 0; transform: translateY(22px); } }
 .scroll-hint { position: absolute; z-index: 2; left: 50%; bottom: 26px; transform: translateX(-50%); display: flex; flex-direction: column; align-items: center; gap: 10px;
@@ -279,7 +259,6 @@ header.nav {
   border-top: 1px solid var(--line); background: var(--surface-2); }
 .ed-status span:first-child { color: var(--blue); }
 
-.editor { transition: transform .5s cubic-bezier(.2,.7,.2,1); }
 @media (max-width: 940px) { .hero .wrap { grid-template-columns: 1fr; gap: 44px; padding-block: 64px 104px; } .editor { max-width: 560px; } .hero .wrap::before { display: none; } }
 @media (max-width: 480px) { .editor { font-size: 12px; } .ed-dots { display: none; } .ed-tab { padding-inline: 12px; font-size: 12px; } .ed-tab:first-child { border-left: 0; } }
 
@@ -340,10 +319,7 @@ section.block .wrap { padding-block: 104px 8px; }
 .proj { scroll-margin-top: 110px; display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, .8fr); gap: 56px; align-items: center; }
 .proj.flip { grid-template-columns: minmax(0, .8fr) minmax(0, 1.2fr); }   /* slika desno, ali i dalje u široj koloni */
 .proj.flip .shots { order: 2; }
-.shots { position: relative; padding: 0 0 40px 0; perspective: 1400px; }
-.shots .browser, .shots .phone { transition: transform .6s cubic-bezier(.2,.7,.2,1); will-change: transform; }
-.shots .browser { transform: rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg)); }
-.shots .phone { transform: translate3d(var(--px, 0px), var(--py, 0px), 0); }
+.shots { position: relative; padding: 0 0 40px 0; }
 .browser { border: 1px solid var(--line); border-radius: 14px; overflow: hidden; background: var(--surface); box-shadow: 0 40px 80px -40px var(--shadow); }
 .browser .bar { display: flex; align-items: center; gap: 7px; padding: 10px 12px; background: var(--surface-2); border-bottom: 1px solid var(--line); }
 .browser .bar i { width: 9px; height: 9px; border-radius: 50%; background: var(--line); }
@@ -462,8 +438,6 @@ section.block .wrap { padding-block: 104px 8px; }
 
 /* Contact */
 .contact { margin-top: 104px; border-top: 1px solid var(--line); position: relative; overflow: hidden; }
-.contact::before { content: ""; position: absolute; width: 800px; height: 800px; left: -360px; bottom: -420px; pointer-events: none;
-  background: radial-gradient(closest-side, var(--orb), transparent); }
 .contact .wrap { position: relative; padding-block: 96px 72px; display: grid; grid-template-columns: minmax(0, .9fr) minmax(0, 1.1fr); gap: 56px; align-items: start; }
 .contact h2 { font-size: clamp(2.6rem, 6.5vw, 4.8rem); font-weight: 800; letter-spacing: -.035em; margin-top: 12px; }
 .contact h2 span { color: var(--blue); }
@@ -513,7 +487,7 @@ footer a:hover { color: var(--fg); }
 <button class="to-top" id="to-top" type="button" aria-label="Nazad na vrh" data-i18n-aria="f.toparia"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19V5M5 12l7-7 7 7"/></svg></button>
 <header class="nav">
   <div class="nav-in">
-    <a class="logo" href="#top" aria-label="Nikola Vojvodić, početak" data-i18n-aria="nav.home"><span aria-hidden="true">N<b>V</b></span><i aria-hidden="true"></i></a>
+    <a class="logo" href="#top" aria-label="Nikola Vojvodić, početak" data-i18n-aria="nav.home"><span aria-hidden="true">N<b>V</b></span></a>
     <nav aria-label="Navigacija" data-i18n-aria="nav.aria">
       <ul>
         <li><a href="#projekti" data-i18n="nav.projects">Projekti</a></li>
@@ -541,7 +515,6 @@ footer a:hover { color: var(--fg); }
 
 <main id="top">
   <section class="hero" id="hero">
-    <div class="spot" aria-hidden="true"></div>
     <div class="wrap">
       <div class="hero-in">
         <div class="kicker">
@@ -1360,7 +1333,7 @@ function copyEmail(onDone) {
 
 /* ---------- Poruka za one koji otvore konzolu ---------- */
 console.log(
-  "%c👋 Hej, developeru!%c\nOvaj sajt je napisan ručno, bez frejmvorka. Kod je ovde: https://github.com/vojvodixdev/vojvodixdev.github.io\nHi there! This site is hand-written, no framework. Source: https://github.com/vojvodixdev/vojvodixdev.github.io\nTip: Ctrl + K",
+  "%c👋 Hej, developeru!%c\nOvaj sajt radi bez frejmvorka i bez build koraka. Kod je ovde: https://github.com/vojvodixdev/vojvodixdev.github.io\nHi there! No framework, no build step. Source: https://github.com/vojvodixdev/vojvodixdev.github.io\nTip: Ctrl + K",
   "font: 700 16px system-ui; color: #4d8dff;", "font: 12px ui-monospace, monospace; color: #8794b4;"
 );
 
@@ -1417,30 +1390,6 @@ console.log(
     const ptable = document.getElementById("ptable");
     new MutationObserver(() => ptable.querySelectorAll(".el, .grp").forEach(el => el.classList.add("reveal"))).observe(ptable, { childList: true });
   }
-
-  // parallax u hero delu
-  const hero = document.getElementById("hero");
-  const editor = document.querySelector(".editor");
-  hero.addEventListener("pointermove", e => {
-    if (e.pointerType !== "mouse") return;
-    const r = hero.getBoundingClientRect();
-    const mx = (e.clientX - r.left) / r.width - .5, my = (e.clientY - r.top) / r.height - .5;
-    hero.style.setProperty("--mx", mx.toFixed(3)); hero.style.setProperty("--my", my.toFixed(3));
-    editor.style.transform = `perspective(1200px) rotateY(${(mx * -6).toFixed(2)}deg) rotateX(${(my * 5).toFixed(2)}deg)`;
-  });
-  hero.addEventListener("pointerleave", () => { hero.style.setProperty("--mx", 0); hero.style.setProperty("--my", 0); editor.style.transform = ""; });
-
-  // 3D nagib screenshot-ova projekata
-  document.querySelectorAll(".shots").forEach(sh => {
-    sh.addEventListener("pointermove", e => {
-      if (e.pointerType !== "mouse") return;
-      const r = sh.getBoundingClientRect();
-      const x = (e.clientX - r.left) / r.width - .5, y = (e.clientY - r.top) / r.height - .5;
-      sh.style.setProperty("--ry", (x * 8).toFixed(2) + "deg"); sh.style.setProperty("--rx", (y * -6).toFixed(2) + "deg");
-      sh.style.setProperty("--px", (x * -18).toFixed(1) + "px"); sh.style.setProperty("--py", (y * -14).toFixed(1) + "px");
-    });
-    sh.addEventListener("pointerleave", () => { sh.style.setProperty("--ry", "0deg"); sh.style.setProperty("--rx", "0deg"); sh.style.setProperty("--px", "0px"); sh.style.setProperty("--py", "0px"); });
-  });
 })();
 
 /* ---------- Kopiranje email adrese ---------- */
