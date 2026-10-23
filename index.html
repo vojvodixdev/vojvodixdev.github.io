@@ -216,10 +216,28 @@ header.nav {
 .ed-bar { display: flex; align-items: stretch; background: var(--surface-2); border-bottom: 1px solid var(--line); }
 .ed-dots { display: flex; align-items: center; gap: 7px; padding: 0 14px; }
 .ed-dots i { width: 10px; height: 10px; border-radius: 50%; background: var(--line); }
-.ed-tab { display: flex; align-items: center; gap: 8px; padding: 10px 16px; background: var(--surface); color: var(--fg); font-size: 12.5px;
-  border-right: 1px solid var(--line); border-left: 1px solid var(--line); box-shadow: inset 0 2px 0 var(--blue); }
-.ed-tab b { font: 800 9px/1 var(--f-body); background: #f0db4f; color: #1a1a1a; padding: 3px 3px 2px; border-radius: 2px; }
-.ed-body { display: grid; grid-template-columns: auto minmax(0, 1fr); padding: 16px 0 18px; overflow-x: auto; }
+/* tabovi fajlova: nikola.js, projects.json, README.md */
+.ed-tabs { display: flex; min-width: 0; overflow-x: auto; scrollbar-width: none; }
+.ed-tabs::-webkit-scrollbar { display: none; }
+.ed-tab { position: relative; display: flex; align-items: center; gap: 8px; flex: none; padding: 10px 15px; margin: 0; cursor: pointer;
+  font: 12.5px var(--f-mono); color: var(--muted); background: transparent; border: 0; border-right: 1px solid var(--line);
+  transition: color .2s, background .2s; }
+.ed-tab:first-child { border-left: 1px solid var(--line); }
+.ed-tab:hover { color: var(--fg); }
+.ed-tab[aria-selected="true"] { background: var(--surface); color: var(--fg); box-shadow: inset 0 2px 0 var(--blue); }
+.ed-tab:focus-visible { outline-offset: -3px; }
+.ed-tab b { font: 800 9px/1 var(--f-body); padding: 3px 3px 2px; border-radius: 2px; }
+.ed-tab .ic-js { background: #f0db4f; color: #1a1a1a; }
+.ed-tab .ic-json { background: none; padding: 0; font: 700 11px/1 var(--f-mono); color: var(--syn-lit); }
+.ed-tab .ic-md { background: none; padding: 0; font: 700 11px/1 var(--f-mono); color: var(--blue); }
+/* visina za najduži fajl, da se ništa ne pomera dok se kuca i menjaju tabovi */
+.ed-body { display: grid; grid-template-columns: auto minmax(0, 1fr); padding: 16px 0 18px; overflow-x: auto; min-height: calc(14 * 1.75em + 34px); }
+.ed-body:focus-visible { outline-offset: -3px; }
+.ed-body.swap .ed-code { animation: swap .28s ease-out; }
+@keyframes swap { from { opacity: 0; transform: translateY(5px); } }
+.ed-code a.ed-link { text-decoration: underline; text-decoration-color: color-mix(in srgb, currentColor 40%, transparent); text-underline-offset: 3px; cursor: pointer; }
+.ed-code a.ed-link:hover { text-decoration-color: currentColor; background: color-mix(in srgb, var(--blue) 14%, transparent); border-radius: 3px; }
+.ed-code .h { color: var(--syn-kw); font-weight: 600; }
 .ed-gutter { padding: 0 14px 0 16px; text-align: right; color: var(--syn-com); user-select: none; font-variant-numeric: tabular-nums; }
 .ed-gutter span { display: block; }
 .ed-code { margin: 0; padding-right: 18px; white-space: pre; color: var(--fg); font: inherit; }
@@ -237,7 +255,53 @@ header.nav {
 
 .editor { transition: transform .5s cubic-bezier(.2,.7,.2,1); }
 @media (max-width: 940px) { .hero .wrap { grid-template-columns: 1fr; gap: 44px; padding-block: 64px 104px; } .editor { max-width: 560px; } .hero .wrap::before { display: none; } }
-@media (max-width: 480px) { .editor { font-size: 12px; } }
+@media (max-width: 480px) { .editor { font-size: 12px; } .ed-dots { display: none; } .ed-tab { padding-inline: 12px; font-size: 12px; } .ed-tab:first-child { border-left: 0; } }
+
+/* Komandna paleta (Ctrl + K) */
+kbd { font: 500 11px/1 var(--f-mono); padding: 3px 5px; border-radius: 5px; border: 1px solid var(--line); border-bottom-width: 2px;
+  background: var(--surface); color: var(--muted); }
+.cmdk-btn kbd { margin-left: 2px; }
+@media (max-width: 900px) { .cmdk-btn kbd { display: none; } .cmdk-btn { padding: 0; } }
+.cmdk { width: min(600px, calc(100% - 32px)); max-height: min(560px, calc(100dvh - 120px)); margin: 12vh auto auto; padding: 0;
+  border: 1px solid var(--line); border-radius: 16px; background: var(--surface); color: var(--fg);
+  box-shadow: 0 40px 100px -30px rgba(0, 0, 0, .7); overflow: hidden; }
+.cmdk[open] { display: flex; flex-direction: column; animation: cmdk-in .2s cubic-bezier(.2,.7,.2,1); }
+@keyframes cmdk-in { from { opacity: 0; transform: translateY(-10px) scale(.98); } }
+.cmdk::backdrop { background: rgba(2, 5, 14, .55); backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px); }
+:root[data-mode="light"] .cmdk::backdrop { background: rgba(10, 20, 50, .25); }
+.cmdk-search { display: flex; align-items: center; gap: 12px; padding: 0 16px; border-bottom: 1px solid var(--line); flex: none; }
+.cmdk-search svg { width: 18px; height: 18px; color: var(--muted); flex: none; }
+.cmdk-search input { flex: 1; min-width: 0; padding: 18px 0; border: 0; outline: 0; background: transparent; color: var(--fg); font: 16px var(--f-body); }
+.cmdk-search input::placeholder { color: var(--muted); }
+.cmdk-list { list-style: none; margin: 0; padding: 8px; overflow-y: auto; overscroll-behavior: contain; flex: 1; }
+.cmdk-grp { padding: 12px 10px 6px; font: 11px var(--f-mono); letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+.cmdk-grp:first-child { padding-top: 4px; }
+.cmdk-opt { display: flex; align-items: center; gap: 12px; padding: 10px; border-radius: 10px; cursor: pointer; font-size: 15px; }
+.cmdk-opt svg { width: 17px; height: 17px; flex: none; color: var(--muted); }
+.cmdk-opt small { margin-left: auto; font: 12px var(--f-mono); color: var(--muted); white-space: nowrap; }
+.cmdk-opt[aria-selected="true"] { background: var(--surface-2); box-shadow: inset 2px 0 0 var(--blue); }
+.cmdk-opt[aria-selected="true"] svg { color: var(--blue); }
+.cmdk-empty { padding: 28px 10px; text-align: center; color: var(--muted); }
+.cmdk-foot { display: flex; flex-wrap: wrap; gap: 6px 18px; padding: 10px 16px; border-top: 1px solid var(--line); background: var(--surface-2);
+  font: 12px var(--f-mono); color: var(--muted); flex: none; }
+.cmdk-foot kbd { margin-right: 3px; }
+@media (max-width: 560px) { .cmdk { margin-top: 10px; } .cmdk-foot { display: none; } }
+
+/* Kratka poruka na dnu ekrana */
+.toast { position: fixed; z-index: 30; left: 50%; bottom: calc(24px + env(safe-area-inset-bottom, 0px)); transform: translate(-50%, 16px);
+  padding: 10px 16px; border-radius: 10px; border: 1px solid var(--line); background: var(--surface-2); color: var(--fg);
+  font: 500 14px var(--f-body); box-shadow: 0 18px 40px -16px var(--shadow); opacity: 0; pointer-events: none; transition: opacity .25s, transform .25s; }
+.toast.show { opacity: 1; transform: translate(-50%, 0); }
+
+/* Bedževi u stilu GitHub README-a */
+.badges { display: flex; flex-wrap: wrap; gap: 8px; }
+.badge { display: inline-flex; font: 500 11.5px/1 var(--f-mono); border-radius: 6px; overflow: hidden; border: 1px solid var(--line); text-decoration: none; }
+.badge span { padding: 6px 8px; }
+.badge span:first-child { background: var(--surface-2); color: var(--muted); }
+.badge span:last-child { background: color-mix(in srgb, var(--ok) 16%, var(--surface)); color: var(--ok); }
+.badge.info span:last-child { background: color-mix(in srgb, var(--blue) 14%, var(--surface)); color: var(--blue-soft); }
+a.badge { transition: border-color .2s; }
+a.badge:hover { border-color: var(--ok); }
 
 /* Sections */
 section.block .wrap { padding-block: 104px 8px; }
@@ -247,7 +311,7 @@ section.block .wrap { padding-block: 104px 8px; }
 
 /* Projects */
 .projects { display: grid; gap: 96px; }
-.proj { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, .8fr); gap: 56px; align-items: center; }
+.proj { scroll-margin-top: 110px; display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, .8fr); gap: 56px; align-items: center; }
 .proj.flip .shots { order: 2; }
 .shots { position: relative; padding: 0 0 40px 0; perspective: 1400px; }
 .shots .browser, .shots .phone { transition: transform .6s cubic-bezier(.2,.7,.2,1); will-change: transform; }
@@ -273,7 +337,7 @@ section.block .wrap { padding-block: 104px 8px; }
 .tag { font: 12px/1 var(--f-mono); padding: 7px 9px; border-radius: 6px; background: var(--surface-2); color: var(--blue-soft); border: 1px solid var(--line); }
 .proj .ctas { margin-top: 6px; }
 @media (max-width: 900px) {
-  .proj, .proj.flip { grid-template-columns: 1fr; gap: 32px; }
+  .proj, .proj.flip { grid-template-columns: minmax(0, 1fr); gap: 32px; }
   .proj.flip .shots { order: 0; }
   .phone, .proj.flip .phone { right: 8px; left: auto; }
 }
@@ -418,6 +482,10 @@ footer a:hover { color: var(--fg); }
         <button type="button" data-lang="en" aria-pressed="true" lang="en" title="English">EN</button>
         <button type="button" data-lang="sr" aria-pressed="false" lang="sr-Latn" title="Srpski">SR</button>
       </div>
+      <button class="icon-btn cmdk-btn" id="cmdk-btn" type="button" aria-label="Komandna paleta" data-i18n-aria="k.open" aria-haspopup="dialog" aria-keyshortcuts="Control+K Meta+K">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+        <kbd id="cmdk-kbd" aria-hidden="true">Ctrl K</kbd>
+      </button>
       <button class="icon-btn" id="mode-btn" type="button">
         <svg class="moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5Z"/></svg>
         <svg class="sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
@@ -444,13 +512,17 @@ footer a:hover { color: var(--fg); }
         </div>
       </div>
 
-      <div class="editor" role="img" aria-label="Kod: kratak opis Nikole kao JavaScript objekat" data-i18n-aria="ed.aria">
-        <div class="ed-bar" aria-hidden="true">
-          <div class="ed-dots"><i></i><i></i><i></i></div>
-          <div class="ed-tab"><b>JS</b>nikola.js</div>
+      <div class="editor" role="region" aria-label="Editor koda" data-i18n-aria="ed.aria">
+        <div class="ed-bar">
+          <div class="ed-dots" aria-hidden="true"><i></i><i></i><i></i></div>
+          <div class="ed-tabs" role="tablist" aria-label="Fajlovi" data-i18n-aria="ed.files">
+            <button class="ed-tab" type="button" role="tab" id="tab-nikola" data-file="nikola" aria-selected="true" aria-controls="ed-panel"><b class="ic-js" aria-hidden="true">JS</b>nikola.js</button>
+            <button class="ed-tab" type="button" role="tab" id="tab-projects" data-file="projects" aria-selected="false" aria-controls="ed-panel" tabindex="-1"><b class="ic-json" aria-hidden="true">{}</b>projects.json</button>
+            <button class="ed-tab" type="button" role="tab" id="tab-readme" data-file="readme" aria-selected="false" aria-controls="ed-panel" tabindex="-1"><b class="ic-md" aria-hidden="true">M↓</b>README.md</button>
+          </div>
         </div>
-        <div class="ed-body" aria-hidden="true">
-          <div class="ed-gutter" id="ed-gutter"></div>
+        <div class="ed-body" id="ed-panel" role="tabpanel" aria-labelledby="tab-nikola" tabindex="0">
+          <div class="ed-gutter" id="ed-gutter" aria-hidden="true"></div>
           <pre class="ed-code" id="ed-code"></pre>
         </div>
         <div class="ed-status" aria-hidden="true"><span>● main</span><span id="ed-pos">JavaScript · UTF-8</span></div>
@@ -482,6 +554,11 @@ footer a:hover { color: var(--fg); }
           <div class="proj-info">
             <span class="label" data-i18n="fr.meta">2026 · full-stack · alat za developere</span>
             <h3>FlakeRadar</h3>
+            <div class="badges">
+              <a class="badge" href="https://github.com/vojvodixdev/flakeradar/actions" target="_blank" rel="noopener" title="GitHub Actions"><span>tests</span><span>49 passing</span></a>
+              <span class="badge info"><span>node</span><span>22 · 24</span></span>
+              <span class="badge info"><span>docker</span><span>image</span></span>
+            </div>
             <p data-i18n="fr.desc">Alat koji u CI-ju pronalazi flaky testove, one koji ponekad padnu bez ikakve promene u kodu, i u svakom pull requestu odvaja prave greške od poznatog šuma.</p>
             <ul class="feat">
               <li data-i18n="fr.f1">Ocena svakog testa: isti commit sa različitim ishodom i Wilsonov interval poverenja</li>
@@ -518,6 +595,11 @@ footer a:hover { color: var(--fg); }
           <div class="proj-info">
             <span class="label" data-i18n="k.meta">2026 · PWA · diplomski rad, ocena 10</span>
             <h3>Knjigoteka</h3>
+            <div class="badges">
+              <a class="badge" href="https://github.com/vojvodixdev/knjigoteka/actions" target="_blank" rel="noopener" title="GitHub Actions"><span>tests</span><span>74 passing</span></a>
+              <span class="badge info"><span>offline</span><span>ready</span></span>
+              <span class="badge info"><span>a11y</span><span>axe-core</span></span>
+            </div>
             <p data-i18n="k.desc">Progresivna web aplikacija za pretragu knjiga iz kataloga Open Library i vođenje lične police. Radi bez interneta i instalira se na telefon i računar kao prava aplikacija.</p>
             <ul class="feat">
               <li data-i18n="k.f1">Pretraga sa filterima, sortiranjem i deljivim linkovima</li>
@@ -554,6 +636,11 @@ footer a:hover { color: var(--fg); }
           <div class="proj-info">
             <span class="label" data-i18n="le.meta">2026 · sajt za restoran · koncept</span>
             <h3>Last Ember</h3>
+            <div class="badges">
+              <span class="badge info"><span>dependencies</span><span>0</span></span>
+              <span class="badge info"><span>build step</span><span>none</span></span>
+              <span class="badge info"><span>i18n</span><span>en · sr</span></span>
+            </div>
             <p data-i18n="le.desc">Sajt za noćni burger bar u Beogradu, sa menijem, korpom i rezervacijom stola. Sve radi u browseru, bez frejmvorka i bez build koraka.</p>
             <ul class="feat">
               <li data-i18n="le.f1">Burger koji se slaže dok skroluješ, uz statičnu verziju za smanjen pokret</li>
@@ -592,8 +679,8 @@ footer a:hover { color: var(--fg); }
       </div>
       <div class="about">
         <div class="about-text">
-          <p data-i18n="ab.p1">Ja sam <strong>Nikola Vojvodić</strong>, web developer iz Čačka i diplomirani inženjer informacionih tehnologija (FTN Čačak, 2026). Pravim kompletne, funkcionalne web aplikacije u JavaScript-u, od <strong>offline-first PWA</strong> aplikacija do full-stack aplikacija u realnom vremenu i dashboard-a sa podacima.</p>
-          <p data-i18n="ab.p2">Svaki projekat pravim od nule, sa pažnjom na čist kod, <strong>pristupačnost i automatske testove</strong>. Pored projekata iznad, napravio sam i <strong>Blogram</strong>, društvenu blog platformu sa nalozima, praćenjem i porukama u realnom vremenu, i <strong>FinDash</strong>, dashboard za lične finansije sa grafikonima, budžetima i sinhronizacijom u oblaku. Oba rade na Supabase-u.</p>
+          <p data-i18n="ab.p1">Ja sam <strong>Nikola Vojvodić</strong>, web developer iz Čačka i diplomirani inženjer informacionih tehnologija (FTN Čačak, 2026). Pravim kompletne, funkcionalne web aplikacije u JavaScript-u, od <strong>full-stack alata za developere</strong> i <strong>offline-first PWA</strong> aplikacija do interaktivnih sajtova.</p>
+          <p data-i18n="ab.p2">Svaki projekat pravim od nule, sa pažnjom na čist kod, <strong>pristupačnost i automatske testove</strong>. Svaki projekat na ovoj stranici ima verziju uživo i kompletan kod na GitHubu, a testovi se automatski pokreću pri svakoj izmeni.</p>
           <p data-i18n="ab.p3">Tražim prvu poziciju kao <strong>junior frontend ili full-stack developer</strong>.</p>
           <div class="ctas">
             <a class="btn primary" href="cv/Nikola_Vojvodic_CV.pdf" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12Z"/><circle cx="12" cy="12" r="3"/></svg><span data-i18n="ab.cvv">Pogledaj CV</span></a>
@@ -672,6 +759,22 @@ footer a:hover { color: var(--fg); }
 
 <footer><div class="wrap"><span>© 2026 Nikola Vojvodić · Čačak</span><span class="f-links"><a href="https://github.com/vojvodixdev" target="_blank" rel="noopener">GitHub</a><a href="https://www.linkedin.com/in/nikola-vojvodi%C4%87-324a79419" target="_blank" rel="noopener">LinkedIn</a><a href="cv/Nikola_Vojvodic_CV.pdf" target="_blank" rel="noopener">CV</a><a href="#top" data-i18n="f.top">nazad na vrh ↑</a></span></div></footer>
 
+<dialog class="cmdk" id="cmdk" aria-label="Komandna paleta" data-i18n-aria="k.title">
+  <div class="cmdk-search">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+    <input id="cmdk-q" type="text" role="combobox" aria-expanded="true" aria-controls="cmdk-list" aria-autocomplete="list" autocomplete="off" spellcheck="false"
+      placeholder="Ukucaj komandu ili traži…" data-i18n-ph="k.ph" aria-label="Pretraga komandi" data-i18n-aria="k.qaria">
+    <kbd aria-hidden="true">Esc</kbd>
+  </div>
+  <ul class="cmdk-list" id="cmdk-list" role="listbox" aria-label="Komande" data-i18n-aria="k.list"></ul>
+  <div class="cmdk-foot" aria-hidden="true">
+    <span><kbd>↑</kbd><kbd>↓</kbd> <span data-i18n="k.move">pomeri</span></span>
+    <span><kbd>Enter</kbd> <span data-i18n="k.run">otvori</span></span>
+    <span><kbd>Esc</kbd> <span data-i18n="k.close">zatvori</span></span>
+  </div>
+</dialog>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
 <script>
 const ENDPOINT = "https://formspree.io/f/mppqglyp";
 
@@ -680,7 +783,9 @@ const EN = {
   "nav.aria": "Navigation", "nav.home": "Nikola Vojvodić, home", "nav.projects": "Projects", "nav.about": "About", "nav.tools": "Tools", "nav.contact": "Contact",
   "hero.avail": "Available for work",
   "hero.cta1": "View projects", "hero.cta2": "Send a message",
-  "ed.aria": "Code: a short description of Nikola as a JavaScript object", "hero.scroll": "Scroll down", "hero.scrollt": "Scroll", "f.toparia": "Back to top",
+  "ed.aria": "Code editor", "ed.files": "Files",
+  "k.open": "Command palette", "k.title": "Command palette", "k.ph": "Type a command or search…", "k.qaria": "Search commands", "k.list": "Commands",
+  "k.move": "move", "k.run": "open", "k.close": "close", "hero.scroll": "Scroll down", "hero.scrollt": "Scroll", "f.toparia": "Back to top",
   "t.lead": "My core stack up top, everything else grouped by area below. Each tool shows which project you can see it in.",
   "proj.eyebrow": "What I've built", "proj.title": "Projects", "proj.lead": "Open any project live and browse its full source code.",
   "btn.live": "Live preview",
@@ -707,8 +812,8 @@ const EN = {
   "le.f4": "Table booking and a live open / closed status",
   "le.f5": "The whole site in English and Serbian",
   "ab.eyebrow": "Who I am", "ab.title": "About me",
-  "ab.p1": "I'm <strong>Nikola Vojvodić</strong>, a web developer from Čačak, Serbia, with a degree in Information Technology (Faculty of Technical Sciences Čačak, 2026). I build complete, working web applications in JavaScript, from <strong>offline-first PWAs</strong> to real-time full-stack apps and data dashboards.",
-  "ab.p2": "I build every project from scratch, with attention to clean code, <strong>accessibility and automated testing</strong>. Besides the projects above, I've built <strong>Blogram</strong>, a social blog platform with accounts, follows and real-time messages, and <strong>FinDash</strong>, a personal finance dashboard with charts, budgets and cloud sync. Both run on Supabase.",
+  "ab.p1": "I'm <strong>Nikola Vojvodić</strong>, a web developer from Čačak, Serbia, with a degree in Information Technology (Faculty of Technical Sciences Čačak, 2026). I build complete, working web applications in JavaScript, from <strong>full-stack developer tools</strong> and <strong>offline-first PWAs</strong> to interactive websites.",
+  "ab.p2": "I build every project from scratch, with attention to clean code, <strong>accessibility and automated testing</strong>. Every project on this page has a live version and its full source code on GitHub, and the tests run automatically on every change.",
   "ab.p3": "I'm looking for my first role as a <strong>junior frontend or full-stack developer</strong>.",
   "ab.cvv": "View CV", "ab.cv": "Download PDF", "cv.dl": "Download CV",
   "ab.k1": "Role", "ab.v1": "Junior web developer", "ab.k2": "Location", "ab.v2": "Čačak, Serbia",
@@ -729,62 +834,187 @@ const EN = {
 const MSG = {
   sr: { copied: "Kopirano", sending: "Šaljem…", empty: "Upiši ime i poruku.", email: "Upiši ispravnu email adresu da bih mogao da ti odgovorim.",
         ok: "Hvala! Poruka je poslata, javiću ti se uskoro.", fail: "Poruka nije poslata", retry: ". Pokušaj ponovo za par minuta.",
-        net: "Poruka nije poslata. Proveri internet vezu i pokušaj ponovo.", light: "Uključi svetlu temu", dark: "Uključi tamnu temu" },
+        net: "Poruka nije poslata. Proveri internet vezu i pokušaj ponovo.", light: "Uključi svetlu temu", dark: "Uključi tamnu temu", mailCopied: "Email adresa je kopirana" },
   en: { copied: "Copied", sending: "Sending…", empty: "Please enter your name and a message.", email: "Please enter a valid email address so I can reply.",
         ok: "Thanks! Your message was sent, I'll get back to you soon.", fail: "Message not sent", retry: ". Please try again in a few minutes.",
-        net: "Message not sent. Check your internet connection and try again.", light: "Switch to light mode", dark: "Switch to dark mode" }
+        net: "Message not sent. Check your internet connection and try again.", light: "Switch to light mode", dark: "Switch to dark mode", mailCopied: "Email address copied" }
 };
 
-/* ---------- nikola.js u editoru ---------- */
-const CODE = {
-  sr: [
-    ["k", "const ", "", "nikola", "u", " = {"],
-    ["p", "  ime", "u", ": ", "s", "\"Nikola Vojvodić\"", "u", ","],
-    ["p", "  uloga", "u", ": ", "s", "\"Front-end developer\"", "u", ","],
-    ["p", "  lokacija", "u", ": ", "s", "\"Čačak, Srbija\"", "u", ","],
-    ["p", "  stack", "u", ": ["],
-    ["s", "    \"React\"", "u", ", ", "s", "\"JavaScript\"", "u", ", ", "s", "\"HTML\"", "u", ", ", "s", "\"CSS\"", "u", ","],
-    ["s", "    \"TypeScript\"", "u", ", ", "s", "\"Node.js\"", "u", ", ", "s", "\"Tailwind\"", "u", ","],
-    ["s", "    \"PWA\"", "u", ", ", "s", "\"Supabase\"", "u", ", ", "s", "\"Playwright\""],
-    ["u", "  ],"],
-    ["p", "  volim", "u", ": [", "s", "\"brze sajtove\"", "u", ", ", "s", "\"pristupačnost\"", "u", "],"],
-    ["p", "  dostupan", "u", ": ", "l", "true", "u", ","],
-    ["u", "};"],
-    ["", ""],
-    ["k", "export default ", "", "nikola", "u", ";", "cur"]
-  ],
-  en: [
-    ["k", "const ", "", "nikola", "u", " = {"],
-    ["p", "  name", "u", ": ", "s", "\"Nikola Vojvodić\"", "u", ","],
-    ["p", "  role", "u", ": ", "s", "\"Front-end developer\"", "u", ","],
-    ["p", "  location", "u", ": ", "s", "\"Čačak, Serbia\"", "u", ","],
-    ["p", "  stack", "u", ": ["],
-    ["s", "    \"React\"", "u", ", ", "s", "\"JavaScript\"", "u", ", ", "s", "\"HTML\"", "u", ", ", "s", "\"CSS\"", "u", ","],
-    ["s", "    \"TypeScript\"", "u", ", ", "s", "\"Node.js\"", "u", ", ", "s", "\"Tailwind\"", "u", ","],
-    ["s", "    \"PWA\"", "u", ", ", "s", "\"Supabase\"", "u", ", ", "s", "\"Playwright\""],
-    ["u", "  ],"],
-    ["p", "  loves", "u", ": [", "s", "\"fast websites\"", "u", ", ", "s", "\"accessibility\"", "u", "],"],
-    ["p", "  available", "u", ": ", "l", "true", "u", ","],
-    ["u", "};"],
-    ["", ""],
-    ["k", "export default ", "", "nikola", "u", ";", "cur"]
-  ]
+/* ---------- Editor u hero delu: tri fajla, kod se ukuca pri učitavanju ----------
+   Svaki red je niz parova [klasa, tekst]. Klase: k ključna reč, p svojstvo, s string, l literal,
+   c komentar, u interpunkcija, h naslov u Markdown-u, "a:<adresa>" link. "cur" je mesto kursora. */
+const STACK = [
+  ["s", "    \"React\"", "u", ", ", "s", "\"JavaScript\"", "u", ", ", "s", "\"HTML\"", "u", ", ", "s", "\"CSS\"", "u", ","],
+  ["s", "    \"TypeScript\"", "u", ", ", "s", "\"Node.js\"", "u", ", ", "s", "\"Tailwind\"", "u", ","],
+  ["s", "    \"PWA\"", "u", ", ", "s", "\"Fastify\"", "u", ", ", "s", "\"Playwright\""]
+];
+const project = (name, href, type, key, val, last) => [
+  ["u", "  { ", "p", "\"name\"", "u", ": ", "a:" + href, `"${name}"`, "u", ","],
+  ["p", "    \"type\"", "u", ": ", "s", `"${type}"`, "u", ","],
+  ["p", `    "${key}"`, "u", ": ", "l", String(val), "u", last ? " }" : " },"]
+];
+const FILES = {
+  nikola: {
+    kind: "JavaScript",
+    sr: [
+      ["k", "const ", "", "nikola", "u", " = {"],
+      ["p", "  ime", "u", ": ", "s", "\"Nikola Vojvodić\"", "u", ","],
+      ["p", "  uloga", "u", ": ", "s", "\"Front-end developer\"", "u", ","],
+      ["p", "  lokacija", "u", ": ", "s", "\"Čačak, Srbija\"", "u", ","],
+      ["p", "  stack", "u", ": ["], ...STACK, ["u", "  ],"],
+      ["p", "  volim", "u", ": [", "s", "\"brze sajtove\"", "u", ", ", "s", "\"pristupačnost\"", "u", "],"],
+      ["p", "  dostupan", "u", ": ", "l", "true", "u", ","],
+      ["u", "};"],
+      ["", ""],
+      ["k", "export default ", "", "nikola", "u", ";", "cur"]
+    ],
+    en: [
+      ["k", "const ", "", "nikola", "u", " = {"],
+      ["p", "  name", "u", ": ", "s", "\"Nikola Vojvodić\"", "u", ","],
+      ["p", "  role", "u", ": ", "s", "\"Front-end developer\"", "u", ","],
+      ["p", "  location", "u", ": ", "s", "\"Čačak, Serbia\"", "u", ","],
+      ["p", "  stack", "u", ": ["], ...STACK, ["u", "  ],"],
+      ["p", "  loves", "u", ": [", "s", "\"fast websites\"", "u", ", ", "s", "\"accessibility\"", "u", "],"],
+      ["p", "  available", "u", ": ", "l", "true", "u", ","],
+      ["u", "};"],
+      ["", ""],
+      ["k", "export default ", "", "nikola", "u", ";", "cur"]
+    ]
+  },
+  projects: {
+    kind: "JSON",
+    sr: [
+      ["u", "["],
+      ...project("FlakeRadar", "#p-flakeradar", "alat za developere", "tests", 49),
+      ...project("Knjigoteka", "#p-knjigoteka", "offline-first PWA", "tests", 74),
+      ...project("Last Ember", "#p-last-ember", "sajt za restoran", "dependencies", 0, true),
+      ["u", "]"],
+      ["", ""],
+      ["c", "// klikni na ime da odeš do projekta", "cur"]
+    ],
+    en: [
+      ["u", "["],
+      ...project("FlakeRadar", "#p-flakeradar", "developer tool", "tests", 49),
+      ...project("Knjigoteka", "#p-knjigoteka", "offline-first PWA", "tests", 74),
+      ...project("Last Ember", "#p-last-ember", "restaurant website", "dependencies", 0, true),
+      ["u", "]"],
+      ["", ""],
+      ["c", "// click a name to jump to the project", "cur"]
+    ]
+  },
+  readme: {
+    kind: "Markdown",
+    sr: [
+      ["h", "# Nikola Vojvodić"],
+      ["", ""],
+      ["", "Junior web developer iz Čačka. Pravim"],
+      ["", "web aplikacije koje su brze, pristupačne"],
+      ["", "i pokrivene testovima."],
+      ["", ""],
+      ["h", "## Trenutno"],
+      ["u", "- ", "", "Tražim prvi posao kao junior developer"],
+      ["u", "- ", "", "Unapređujem FlakeRadar"],
+      ["", ""],
+      ["h", "## Kontakt"],
+      ["u", "- [", "a:#kontakt", "Pošalji poruku", "u", "](", "c", "#kontakt", "u", ")"],
+      ["u", "- [", "a:https://github.com/vojvodixdev", "GitHub", "u", "](", "c", "github.com/vojvodixdev", "u", ")", "cur"]
+    ],
+    en: [
+      ["h", "# Nikola Vojvodić"],
+      ["", ""],
+      ["", "Junior web developer from Čačak, Serbia."],
+      ["", "I build web apps that are fast,"],
+      ["", "accessible and covered by tests."],
+      ["", ""],
+      ["h", "## Right now"],
+      ["u", "- ", "", "Looking for a first junior role"],
+      ["u", "- ", "", "Improving FlakeRadar"],
+      ["", ""],
+      ["h", "## Contact"],
+      ["u", "- [", "a:#kontakt", "Send a message", "u", "](", "c", "#kontakt", "u", ")"],
+      ["u", "- [", "a:https://github.com/vojvodixdev", "GitHub", "u", "](", "c", "github.com/vojvodixdev", "u", ")", "cur"]
+    ]
+  }
 };
-const escHTML = s => s.replace(/[&<>]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;" }[c]));
-function renderCode(lang) {
-  const lines = CODE[lang];
-  document.getElementById("ed-gutter").innerHTML = lines.map((_, i) => `<span>${i + 1}</span>`).join("");
-  document.getElementById("ed-code").innerHTML = lines.map(parts => {
-    let out = "";
-    for (let i = 0; i < parts.length; i += 2) {
-      if (parts[i] === "cur") { out += '<span class="cursor"></span>'; break; }
-      const cls = parts[i], txt = escHTML(parts[i + 1] || "");
-      out += cls ? `<span class="${cls}">${txt}</span>` : txt;
-    }
-    return out;
-  }).join("\n");
-  document.getElementById("ed-pos").textContent = `JavaScript · UTF-8 · Ln ${lines.length}`;
+const escHTML = s => s.replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+const CURSOR = '<span class="cursor"></span>';
+function tokenHTML(cls, txt) {
+  const t = escHTML(txt);
+  if (!cls) return t;
+  if (cls.startsWith("a:")) {
+    const href = cls.slice(2), ext = /^https?:/.test(href);
+    return `<a class="s ed-link" href="${href}"${ext ? ' target="_blank" rel="noopener"' : ""}>${t}</a>`;
+  }
+  return `<span class="${cls}">${t}</span>`;
 }
+const fileLength = lines => lines.reduce((n, parts) => {
+  for (let i = 0; i < parts.length; i += 2) if (parts[i] !== "cur") n += (parts[i + 1] || "").length;
+  return n + 1;
+}, -1);
+/** Crta prvih `upto` znakova fajla, sa kursorom na mestu gde je kucanje stiglo. Vraća [red, kolona]. */
+function drawCode(lines, upto = Infinity) {
+  let left = upto, pos = [lines.length, 1];
+  const html = lines.map((parts, li) => {
+    if (left < 0) return "";
+    let s = "", col = 1;
+    for (let i = 0; i < parts.length; i += 2) {
+      if (parts[i] === "cur") { if (upto === Infinity) { s += CURSOR; pos = [li + 1, col]; } break; }
+      const txt = parts[i + 1] || "";
+      if (txt.length > left) { s += tokenHTML(parts[i], txt.slice(0, left)) + CURSOR; pos = [li + 1, col + left]; left = -1; return s; }
+      s += tokenHTML(parts[i], txt); left -= txt.length; col += txt.length;
+    }
+    if (upto !== Infinity && left === 0) { s += CURSOR; pos = [li + 1, col]; left = -1; return s; }
+    left -= 1;
+    return s;
+  });
+  document.getElementById("ed-gutter").innerHTML = lines.map((_, i) => `<span>${i + 1}</span>`).join("");
+  document.getElementById("ed-code").innerHTML = html.join("\n");
+  return pos;
+}
+const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+let edFile = "nikola", typing = 0;
+function renderCode(l = lang, file = edFile) {
+  cancelAnimationFrame(typing); typing = 0;
+  edFile = file;
+  const f = FILES[file], lines = f[l];
+  const [ln, col] = drawCode(lines);
+  document.getElementById("ed-pos").textContent = `${f.kind} · UTF-8 · Ln ${ln}, Col ${col}`;
+}
+function typeCode() {
+  const f = FILES[edFile], lines = f[lang], total = fileLength(lines);
+  const dur = Math.min(1900, total * 4.5), start = performance.now() + 350;
+  const pos = document.getElementById("ed-pos");
+  const step = now => {
+    const shown = Math.max(0, Math.floor(total * (now - start) / dur));
+    if (shown >= total) { renderCode(); return; }
+    const [ln, col] = drawCode(lines, shown);
+    pos.textContent = `${f.kind} · UTF-8 · Ln ${ln}, Col ${col}`;
+    typing = requestAnimationFrame(step);
+  };
+  typing = requestAnimationFrame(step);
+}
+/* tabovi: klik, strelice levo/desno, Home/End */
+const edTabs = [...document.querySelectorAll(".ed-tab")];
+function openFile(file, focus) {
+  const panel = document.getElementById("ed-panel");
+  edTabs.forEach(t => {
+    const on = t.dataset.file === file;
+    t.setAttribute("aria-selected", String(on)); t.tabIndex = on ? 0 : -1;
+    if (on) { panel.setAttribute("aria-labelledby", t.id); if (focus) t.focus(); }
+  });
+  if (file === edFile && !typing) return;
+  renderCode(lang, file);
+  if (!reduceMotion) { panel.classList.remove("swap"); void panel.offsetWidth; panel.classList.add("swap"); }
+}
+edTabs.forEach((t, i) => {
+  t.addEventListener("click", () => openFile(t.dataset.file));
+  t.addEventListener("keydown", e => {
+    const to = { ArrowRight: i + 1, ArrowLeft: i - 1, Home: 0, End: edTabs.length - 1 }[e.key];
+    if (to === undefined) return;
+    e.preventDefault();
+    openFile(edTabs[(to + edTabs.length) % edTabs.length].dataset.file, true);
+  });
+});
 
 /* ---------- Periodni sistem alata ---------- */
 const CATS = {
@@ -805,11 +1035,8 @@ const TOOLS = [
   ["PWA", "web", "manifest, instalacija, offline", "manifest, install, offline", 0, "K"],
   ["Service Worker", "web", "Cache API, ažuriranja", "Cache API, updates", 0, "K"],
   ["REST API", "web", "fetch, greške, keš", "fetch, errors, cache", 0, "K"],
-  ["Chart.js", "web", "grafikoni (FinDash)", "charts (FinDash)", 0, ""],
   ["i18n", "web", "prevodi, Intl", "translations, Intl", 0, "KL"],
   ["TypeScript", "web", "tipovi, deljeni API ugovori", "types, shared API contracts", 0, "F"],
-  ["Supabase", "data", "Auth, Realtime, RLS (Blogram, FinDash)", "Auth, Realtime, RLS (Blogram, FinDash)", 0, ""],
-  ["PostgreSQL", "data", "row-level security", "row-level security", 0, ""],
   ["SQL", "data", "upiti, šeme", "queries, schemas", 0, "F"],
   ["SQLite", "data", "migracije, indeksi, transakcije", "migrations, indexes, transactions", 0, "F"],
   ["Fastify", "data", "REST API, validacija", "REST APIs, validation", 0, "F"],
@@ -929,6 +1156,147 @@ document.getElementById("mode-btn").addEventListener("click", () => {
 });
 
 setLang("en"); // sajt se uvek otvara na engleskom
+if (!reduceMotion) typeCode();
+
+/* ---------- Kratka poruka (toast) ---------- */
+let toastTimer = 0;
+function toast(text) {
+  const t = document.getElementById("toast");
+  t.textContent = text; t.classList.add("show");
+  clearTimeout(toastTimer); toastTimer = setTimeout(() => t.classList.remove("show"), 2200);
+}
+function copyEmail(onDone) {
+  const mail = document.getElementById("mail").textContent;
+  const ok = () => { toast(MSG[lang].mailCopied); onDone && onDone(); };
+  try { navigator.clipboard.writeText(mail).then(ok, () => toast(mail)); } catch (err) { toast(mail); }
+}
+
+/* ---------- Komandna paleta (Ctrl + K) ---------- */
+(function () {
+  const dlg = document.getElementById("cmdk");
+  const btn = document.getElementById("cmdk-btn");
+  if (!dlg || typeof dlg.showModal !== "function") { btn.hidden = true; return; }
+  const input = document.getElementById("cmdk-q");
+  const list = document.getElementById("cmdk-list");
+  const isMac = /Mac|iPhone|iPad/.test(navigator.platform || navigator.userAgent);
+  document.getElementById("cmdk-kbd").textContent = isMac ? "⌘ K" : "Ctrl K";
+
+  const ICON = {
+    go: '<path d="M5 12h14M13 6l6 6-6 6"/>',
+    box: '<rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9h18"/>',
+    out: '<path d="M14 4h6v6M20 4l-9 9M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"/>',
+    file: '<path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5"/>',
+    down: '<path d="M12 4v11M7 10l5 5 5-5M5 20h14"/>',
+    copy: '<rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/>',
+    theme: '<path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5Z"/>',
+    lang: '<circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/>',
+    code: '<path d="M8 7l-5 5 5 5M16 7l5 5-5 5"/>'
+  };
+  const GROUPS = { nav: { sr: "Idi na", en: "Go to" }, proj: { sr: "Projekti", en: "Projects" }, act: { sr: "Akcije", en: "Actions" }, link: { sr: "Linkovi", en: "Links" } };
+  const go = sel => () => {
+    const el = document.querySelector(sel);
+    el.scrollIntoView({ behavior: reduceMotion ? "auto" : "smooth", block: "start" });
+    history.replaceState(null, "", sel === "#top" ? location.pathname : sel);
+  };
+  const open = url => () => window.open(url, "_blank", "noopener");
+  const fileInEditor = file => () => { go("#top")(); openFile(file); };
+  const cv = "cv/Nikola_Vojvodic_CV.pdf";
+  // [grupa, ikonica, natpis sr, natpis en, dodatne reči za pretragu, desni natpis, akcija]
+  const CMDS = [
+    ["nav", "go", "Projekti", "Projects", "work radovi", "", go("#projekti")],
+    ["nav", "go", "O meni", "About me", "about bio", "", go("#o-meni")],
+    ["nav", "go", "Alati i tehnologije", "Tools & technologies", "stack skills vestine", "", go("#alati")],
+    ["nav", "go", "Kontakt", "Contact", "email poruka message", "", go("#kontakt")],
+    ["proj", "box", "FlakeRadar", "FlakeRadar", "flaky ci tests", "", go("#p-flakeradar")],
+    ["proj", "out", "FlakeRadar uživo", "FlakeRadar live demo", "flaky demo", "↗", open("https://vojvodixdev.github.io/flakeradar/")],
+    ["proj", "box", "Knjigoteka", "Knjigoteka", "pwa books knjige", "", go("#p-knjigoteka")],
+    ["proj", "out", "Knjigoteka uživo", "Knjigoteka live demo", "pwa demo knjige", "↗", open("https://vojvodixdev.github.io/knjigoteka/")],
+    ["proj", "box", "Last Ember", "Last Ember", "restaurant restoran burger", "", go("#p-last-ember")],
+    ["proj", "out", "Last Ember uživo", "Last Ember live demo", "restaurant demo burger", "↗", open("https://vojvodixdev.github.io/last-ember/")],
+    ["act", "copy", "Kopiraj email adresu", "Copy email address", "mail kontakt", "", () => copyEmail()],
+    ["act", "file", "Pogledaj CV", "View CV", "resume pdf", "PDF", open(cv)],
+    ["act", "down", "Preuzmi CV", "Download CV", "resume pdf download", "PDF", () => { const a = document.createElement("a"); a.href = cv; a.download = ""; document.body.append(a); a.click(); a.remove(); }],
+    ["act", "theme", () => root.getAttribute("data-mode") === "light" ? "Uključi tamnu temu" : "Uključi svetlu temu",
+                     () => root.getAttribute("data-mode") === "light" ? "Switch to dark theme" : "Switch to light theme", "tema theme mode dark light", "", () => document.getElementById("mode-btn").click()],
+    ["act", "lang", "Switch to English", "Prebaci na srpski", "jezik language english srpski", "", () => setLang(lang === "en" ? "sr" : "en")],
+    ["act", "code", "Otvori projects.json u editoru", "Open projects.json in the editor", "editor json", "", fileInEditor("projects")],
+    ["act", "code", "Otvori README.md u editoru", "Open README.md in the editor", "editor readme markdown", "", fileInEditor("readme")],
+    ["link", "out", "GitHub profil", "GitHub profile", "code kod repo", "↗", open("https://github.com/vojvodixdev")],
+    ["link", "out", "LinkedIn", "LinkedIn", "linkedin", "↗", open("https://www.linkedin.com/in/nikola-vojvodi%C4%87-324a79419")]
+  ];
+  const norm = s => s.toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, "").replace(/đ/g, "dj");
+  const label = c => { const v = lang === "en" ? c[3] : c[2]; return typeof v === "function" ? v() : v; };
+  let shown = [], active = 0, opener = null;
+
+  function draw() {
+    const words = norm(input.value).split(/\s+/).filter(Boolean);
+    shown = CMDS.filter(c => { const hay = norm(`${label(c)} ${c[2]} ${c[3]} ${c[4]} ${GROUPS[c[0]].en} ${GROUPS[c[0]].sr}`); return words.every(w => hay.includes(w)); });
+    // dok se kuca: prvo komande čiji natpis sadrži traženo, bez naslova grupa
+    if (words.length) shown.sort((a, b) => words.every(w => norm(label(b)).includes(w)) - words.every(w => norm(label(a)).includes(w)));
+    active = Math.min(active, Math.max(0, shown.length - 1));
+    if (!shown.length) {
+      list.innerHTML = `<li class="cmdk-empty" role="presentation">${lang === "en" ? "No results" : "Nema rezultata"}</li>`;
+      input.removeAttribute("aria-activedescendant");
+      return;
+    }
+    let html = "", grp = "";
+    shown.forEach((c, i) => {
+      if (!words.length && c[0] !== grp) { grp = c[0]; html += `<li class="cmdk-grp" role="presentation">${GROUPS[grp][lang]}</li>`; }
+      html += `<li class="cmdk-opt" role="option" id="cmd-${i}" data-i="${i}" aria-selected="${i === active}">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${ICON[c[1]]}</svg>
+        <span>${escHTML(label(c))}</span>${c[5] ? `<small aria-hidden="true">${c[5]}</small>` : ""}</li>`;
+    });
+    list.innerHTML = html;
+    select(active, false);
+  }
+  function select(i, scroll = true) {
+    active = i;
+    list.querySelectorAll(".cmdk-opt").forEach(o => o.setAttribute("aria-selected", String(+o.dataset.i === i)));
+    const el = document.getElementById("cmd-" + i);
+    if (el) { input.setAttribute("aria-activedescendant", el.id); if (scroll) el.scrollIntoView({ block: "nearest" }); }
+  }
+  function run(i) {
+    const c = shown[i]; if (!c) return;
+    close(false);
+    c[6]();
+  }
+  function show() {
+    if (dlg.open) return;
+    opener = document.activeElement;
+    input.value = ""; active = 0; draw();
+    dlg.showModal();
+    input.focus();
+  }
+  function close(restore = true) {
+    if (!dlg.open) return;
+    dlg.close();
+    if (restore && opener && opener.focus) opener.focus();
+  }
+
+  btn.addEventListener("click", show);
+  input.addEventListener("input", () => { active = 0; draw(); });
+  input.addEventListener("keydown", e => {
+    if (e.key === "ArrowDown" || e.key === "ArrowUp") {
+      e.preventDefault();
+      if (shown.length) select((active + (e.key === "ArrowDown" ? 1 : -1) + shown.length) % shown.length);
+    } else if (e.key === "Enter") { e.preventDefault(); run(active); }
+  });
+  list.addEventListener("click", e => { const o = e.target.closest(".cmdk-opt"); if (o) run(+o.dataset.i); });
+  list.addEventListener("pointermove", e => { const o = e.target.closest(".cmdk-opt"); if (o && +o.dataset.i !== active) select(+o.dataset.i, false); });
+  dlg.addEventListener("click", e => { if (e.target === dlg) close(); });   // klik na tamnu pozadinu
+  dlg.addEventListener("cancel", e => { e.preventDefault(); close(); });   // Esc
+  addEventListener("keydown", e => {
+    const typingInField = /^(INPUT|TEXTAREA|SELECT)$/.test(document.activeElement.tagName) || document.activeElement.isContentEditable;
+    if ((e.ctrlKey || e.metaKey) && !e.altKey && e.key.toLowerCase() === "k") { e.preventDefault(); dlg.open ? close() : show(); }
+    else if (e.key === "/" && !typingInField && !dlg.open) { e.preventDefault(); show(); }
+  });
+})();
+
+/* ---------- Poruka za one koji otvore konzolu ---------- */
+console.log(
+  "%c👋 Hej, developeru!%c\nOvaj sajt je napisan ručno, bez frejmvorka. Kod je ovde: https://github.com/vojvodixdev/vojvodixdev.github.io\nHi there! This site is hand-written, no framework. Source: https://github.com/vojvodixdev/vojvodixdev.github.io\nTip: Ctrl + K",
+  "font: 700 16px system-ui; color: #4d8dff;", "font: 12px ui-monospace, monospace; color: #8794b4;"
+);
 
 /* ---------- Animacije ---------- */
 (function () {
