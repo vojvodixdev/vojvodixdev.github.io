@@ -198,7 +198,7 @@ header.nav {
 .kicker { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 20px; font: 13px var(--f-mono); color: var(--muted); }
 .kicker .avail { display: inline-flex; align-items: center; gap: 9px; color: var(--muted); }
 .kicker .avail i { position: relative; width: 8px; height: 8px; border-radius: 50%; background: var(--ok); }
-.ime { margin: 26px 0 20px; font-size: clamp(3.4rem, 8.4vw, 7.4rem); font-weight: 800; letter-spacing: -.045em; line-height: .9; }
+.ime { margin: 24px 0 20px; font-size: clamp(3rem, 7.2vw, 6.3rem); font-weight: 800; letter-spacing: -.04em; line-height: .92; }
 .ime span { display: block; padding-bottom: .06em; color: var(--blue); }
 .hero-in > * { animation: rise .9s cubic-bezier(.2,.7,.2,1) both; animation-delay: calc(var(--i, 0) * 90ms + 80ms); }
 @keyframes rise { from { opacity: 0; transform: translateY(22px); } }
@@ -361,7 +361,6 @@ section.block .wrap { padding-block: 104px 8px; }
 /* About */
 .about { display: grid; grid-template-columns: minmax(0, 360px) minmax(0, 1fr); gap: 64px; align-items: start; }
 .about-main { min-width: 0; display: grid; gap: 40px; }
-.about-text .ctas { margin-top: 26px; }
 /* fotografija u okviru prozora, kao screenshotovi projekata */
 .photo { position: sticky; top: 110px; margin: 0; border: 1px solid var(--line); border-radius: 14px; overflow: hidden; background: var(--surface);
   box-shadow: 0 40px 80px -40px var(--shadow); }
@@ -720,12 +719,6 @@ footer a:hover { color: var(--fg); }
         <div class="about-text">
           <p data-i18n="ab.p1">Ja sam <strong>Nikola Vojvodić</strong>, full-stack developer iz Čačka i diplomirani inženjer informacionih tehnologija (FTN Čačak, 2026). Pravim kompletne, funkcionalne web aplikacije u JavaScript-u, od <strong>alata za developere</strong> sa backendom i bazom i <strong>offline-first PWA</strong> aplikacija do interaktivnih sajtova.</p>
           <p data-i18n="ab.p2">Svaki projekat pravim od nule, sa pažnjom na čist kod, <strong>pristupačnost i automatske testove</strong>. Svaki projekat na ovoj stranici ima verziju uživo i kompletan kod na GitHubu, a testovi se automatski pokreću pri svakoj izmeni.</p>
-          <div class="ctas">
-            <a class="btn primary" href="cv/Nikola_Vojvodic_CV.pdf" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12Z"/><circle cx="12" cy="12" r="3"/></svg><span data-i18n="ab.cvv">Pogledaj CV</span></a>
-            <a class="btn" href="cv/Nikola_Vojvodic_CV.pdf" download><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v11M7 10l5 5 5-5M5 20h14"/></svg><span data-i18n="ab.cv">Preuzmi PDF</span></a>
-            <a class="btn" href="https://github.com/vojvodixdev" target="_blank" rel="noopener">GitHub ↗</a>
-            <a class="btn" href="https://www.linkedin.com/in/nikola-vojvodi%C4%87-324a79419" target="_blank" rel="noopener">LinkedIn ↗</a>
-          </div>
         </div>
         <dl class="facts">
           <div><dt data-i18n="ab.k1">Uloga</dt><dd data-i18n="ab.v1">Full-stack developer</dd></div>
@@ -760,9 +753,6 @@ footer a:hover { color: var(--fg); }
         <p class="lead" data-i18n="c.lead">Imaš posao, projekat ili samo pitanje? Pošalji poruku i odgovoriću u roku od jednog do dva dana.</p>
         <ul class="direct">
           <li><span class="label">Email</span><code id="mail">nikolavojvodic07@gmail.com</code><button type="button" id="copy-mail" data-i18n="c.copy">Kopiraj</button></li>
-          <li><span class="label">GitHub</span><a href="https://github.com/vojvodixdev" target="_blank" rel="noopener">github.com/vojvodixdev ↗</a></li>
-          <li><span class="label">LinkedIn</span><a href="https://www.linkedin.com/in/nikola-vojvodi%C4%87-324a79419" target="_blank" rel="noopener">Nikola Vojvodić ↗</a></li>
-          <li><span class="label">CV</span><a href="cv/Nikola_Vojvodic_CV.pdf" target="_blank" rel="noopener" data-i18n="c.cvv">Pogledaj ↗</a><a href="cv/Nikola_Vojvodic_CV.pdf" download data-i18n="c.cv">Preuzmi PDF ↓</a></li>
         </ul>
       </div>
       <form id="contact-form" action="https://formspree.io/f/mppqglyp" method="POST" novalidate>
@@ -795,7 +785,7 @@ footer a:hover { color: var(--fg); }
   </section>
 </main>
 
-<footer><div class="wrap"><span>© 2026 Nikola Vojvodić · Čačak</span><span class="f-links"><a href="https://github.com/vojvodixdev" target="_blank" rel="noopener">GitHub</a><a href="https://www.linkedin.com/in/nikola-vojvodi%C4%87-324a79419" target="_blank" rel="noopener">LinkedIn</a><a href="cv/Nikola_Vojvodic_CV.pdf" target="_blank" rel="noopener">CV</a><a href="#top" data-i18n="f.top">nazad na vrh ↑</a></span></div></footer>
+<footer><div class="wrap"><span>© 2026 Nikola Vojvodić · Čačak</span><span class="f-links"><a href="https://github.com/vojvodixdev" target="_blank" rel="noopener">GitHub</a><a href="https://www.linkedin.com/in/nikola-vojvodi%C4%87-324a79419" target="_blank" rel="noopener">LinkedIn</a><a href="cv/Nikola_Vojvodic_CV.pdf" target="_blank" rel="noopener">CV</a></span></div></footer>
 
 <dialog class="cmdk" id="cmdk" aria-label="Komandna paleta" data-i18n-aria="k.title">
   <div class="cmdk-search">
@@ -852,7 +842,7 @@ const EN = {
   "ab.eyebrow": "Who I am", "ab.title": "About me",
   "ab.p1": "I'm <strong>Nikola Vojvodić</strong>, a full-stack developer from Čačak, Serbia, with a degree in Information Technology (Faculty of Technical Sciences Čačak, 2026). I build complete, working web applications in JavaScript, from <strong>developer tools</strong> with a backend and database and <strong>offline-first PWAs</strong> to interactive websites.",
   "ab.p2": "I build every project from scratch, with attention to clean code, <strong>accessibility and automated testing</strong>. Every project on this page has a live version and its full source code on GitHub, and the tests run automatically on every change.",
-  "ab.cvv": "View CV", "ab.cv": "Download PDF", "cv.dl": "Download CV",
+  "cv.dl": "Download CV",
   "ab.k1": "Role", "ab.v1": "Full-stack developer", "ab.k2": "Location", "ab.v2": "Čačak, Serbia",
   "ab.k6": "Education", "ab.v6": "Information Technology, Faculty of Technical Sciences Čačak (2022–2026). Bachelor thesis on PWAs, graded 10/10.",
   "ab.k3": "Focus", "ab.v3": "PWAs, accessibility (WCAG 2.1), automated testing, React",
@@ -863,10 +853,9 @@ const EN = {
   "t.c3l": "Quality", "t.c3": "Testing", "t.pw": "end-to-end tests", "t.unit": "unit tests", "t.axe": "automated accessibility checks", "t.csp": "browser security", "t.lh": "speed, SEO, accessibility",
   "t.c4l": "Every day", "t.c4": "Tools", "t.git": "version control, pull requests", "t.node": "dev server, scripts", "t.vsc": "editor, Live Server, debugging", "t.dt": "debugging, performance, network", "t.figma": "design and prototypes",
   "c.eyebrow": "Say hello", "c.title": "Let's<br><span>talk.</span>",
-  "c.lead": "Got a job, a project or just a question? Send me a message and I'll reply within a day or two.", "c.copy": "Copy", "c.cvv": "View ↗", "c.cv": "Download PDF ↓",
+  "c.lead": "Got a job, a project or just a question? Send me a message and I'll reply within a day or two.", "c.copy": "Copy",
   "c.name": "Name", "c.nameph": "Your name", "c.emailph": "name@example.com", "c.subj": "Subject", "c.subjph": "Job, project, collaboration…",
-  "c.msg": "Message", "c.msgph": "Tell me what it's about", "c.send": "Send message",
-  "f.top": "back to top ↑"
+  "c.msg": "Message", "c.msgph": "Tell me what it's about", "c.send": "Send message"
 };
 const MSG = {
   sr: { copied: "Kopirano", sending: "Šaljem…", empty: "Upiši ime i poruku.", email: "Upiši ispravnu email adresu da bih mogao da ti odgovorim.",
