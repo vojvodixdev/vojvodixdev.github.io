@@ -192,14 +192,13 @@ header.nav {
 .hero .wrap::before { content: ""; position: absolute; z-index: -1; right: -26px; bottom: 74px; width: 240px; height: 190px; pointer-events: none;
   background: radial-gradient(var(--blue) 1.3px, transparent 1.6px) 0 0 / 16px 16px; opacity: .35;
   -webkit-mask-image: linear-gradient(135deg, transparent 15%, #000 70%); mask-image: linear-gradient(135deg, transparent 15%, #000 70%); }
-.kicker { margin: 0; font: 14px var(--f-mono); color: var(--muted); }
-.kicker b { font-weight: 500; color: var(--syn-str); }
-.kicker em { font-style: normal; color: var(--blue); }
-.ime { margin: 18px 0 20px; font-size: clamp(3.2rem, 7.6vw, 6.6rem); font-weight: 800; letter-spacing: -.045em; line-height: .92; }
-.ime span { display: block; padding-bottom: .06em; color: var(--blue); }
-.avail { display: inline-flex; align-items: center; gap: 8px; font: 13px var(--f-mono); color: var(--fg); border: 1px solid var(--line); background: var(--surface); border-radius: 999px; padding: 5px 12px 5px 10px; }
-.avail i { width: 8px; height: 8px; border-radius: 50%; background: var(--ok); box-shadow: 0 0 0 4px color-mix(in srgb, var(--ok) 22%, transparent); }
-.avail-row { margin: 22px 0 0; }
+.kicker { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 20px; font: 13px var(--f-mono); color: var(--muted); }
+.kicker .avail { display: inline-flex; align-items: center; gap: 8px; color: var(--fg); border: 1px solid var(--line); background: var(--surface); border-radius: 999px; padding: 5px 12px 5px 10px; }
+.kicker .avail i { width: 8px; height: 8px; border-radius: 50%; background: var(--ok); box-shadow: 0 0 0 4px color-mix(in srgb, var(--ok) 22%, transparent); }
+.ime { margin: 26px 0 20px; font-size: clamp(3.4rem, 8.4vw, 7.4rem); font-weight: 800; letter-spacing: -.045em; line-height: .9; }
+.ime span { display: block; padding-bottom: .06em; color: var(--blue); background: var(--grad); background-size: 220% 100%;
+  -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; animation: shine 7s linear infinite; }
+@keyframes shine { to { background-position: -220% 0; } }
 .hero-in > * { animation: rise .9s cubic-bezier(.2,.7,.2,1) both; animation-delay: calc(var(--i, 0) * 90ms + 80ms); }
 @keyframes rise { from { opacity: 0; transform: translateY(22px); } }
 .scroll-hint { position: absolute; z-index: 2; left: 50%; bottom: 26px; transform: translateX(-50%); display: flex; flex-direction: column; align-items: center; gap: 10px;
@@ -433,7 +432,9 @@ footer a:hover { color: var(--fg); }
     <div class="spot" aria-hidden="true"></div>
     <div class="wrap">
       <div class="hero-in">
-        <p class="kicker" aria-hidden="true"><b>~/čačak</b> <em>$</em> whoami</p>
+        <div class="kicker">
+          <span class="avail"><i></i><span data-i18n="hero.avail">Dostupan za posao</span></span>
+        </div>
         <h1 class="ime" style="--i:1">Nikola <span>Vojvodić</span></h1>
         <p class="uloga" style="--i:2">Frontend developer <i aria-hidden="true">/</i> React</p>
         <div class="ctas" style="--i:3">
@@ -632,7 +633,6 @@ footer a:hover { color: var(--fg); }
         <span class="label blue" data-i18n="c.eyebrow">Kontakt</span>
         <h2 data-i18n="c.title">Hajde da<br><span>pričamo.</span></h2>
         <p class="lead" data-i18n="c.lead">Imaš posao, projekat ili samo pitanje? Pošalji poruku i odgovoriću u roku od jednog do dva dana.</p>
-        <p class="avail-row"><span class="avail"><i></i><span data-i18n="hero.avail">Dostupan za posao</span></span></p>
         <ul class="direct">
           <li><span class="label">Email</span><code id="mail">nikolavojvodic07@gmail.com</code><button type="button" id="copy-mail" data-i18n="c.copy">Kopiraj</button></li>
           <li><span class="label">GitHub</span><a href="https://github.com/vojvodixdev" target="_blank" rel="noopener">github.com/vojvodixdev ↗</a></li>
