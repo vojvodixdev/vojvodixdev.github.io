@@ -102,8 +102,8 @@ a { color: inherit; }
 h1, h2, h3 { font-family: var(--f-display); text-wrap: balance; margin: 0; line-height: 1.04; }
 .label { font-family: var(--f-mono); font-size: 12px; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
 .label.blue { color: var(--blue); }
-/* Naslovi sekcija kao komentar u kodu: "// šta sam napravio" */
-.label.blue { font-size: 13.5px; letter-spacing: 0; text-transform: lowercase; }
+/* Naslovi sekcija kao komentar u kodu: "// Šta sam napravio" */
+.label.blue { font-size: 13.5px; letter-spacing: 0; text-transform: none; }
 .label.blue::before { content: "// "; color: var(--syn-com); }
 .pre { opacity: 0; transform: translateY(28px); }
 .reveal { transition: opacity .8s cubic-bezier(.2,.7,.2,1), transform .8s cubic-bezier(.2,.7,.2,1); transition-delay: calc(var(--d, 0) * 70ms); }
@@ -194,7 +194,10 @@ header.nav {
   -webkit-mask-image: linear-gradient(135deg, transparent 15%, #000 70%); mask-image: linear-gradient(135deg, transparent 15%, #000 70%); }
 .kicker { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 20px; font: 13px var(--f-mono); color: var(--muted); }
 .kicker .avail { display: inline-flex; align-items: center; gap: 8px; color: var(--fg); border: 1px solid var(--line); background: var(--surface); border-radius: 999px; padding: 5px 12px 5px 10px; }
-.kicker .avail i { width: 8px; height: 8px; border-radius: 50%; background: var(--ok); box-shadow: 0 0 0 4px color-mix(in srgb, var(--ok) 22%, transparent); }
+.kicker .avail i { position: relative; width: 8px; height: 8px; border-radius: 50%; background: var(--ok); }
+/* talas oko zelene tačke, kao signal "online" */
+.kicker .avail i::after { content: ""; position: absolute; inset: 0; border-radius: 50%; background: var(--ok); animation: ping 2.2s cubic-bezier(0, 0, .2, 1) infinite; }
+@keyframes ping { 75%, 100% { transform: scale(2.6); opacity: 0; } }
 .ime { margin: 26px 0 20px; font-size: clamp(3.4rem, 8.4vw, 7.4rem); font-weight: 800; letter-spacing: -.045em; line-height: .9; }
 .ime span { display: block; padding-bottom: .06em; color: var(--blue); background: var(--grad); background-size: 220% 100%;
   -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; animation: shine 7s linear infinite; }
@@ -343,15 +346,32 @@ section.block .wrap { padding-block: 104px 8px; }
 }
 
 /* About */
-.about { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, .9fr); gap: 56px; align-items: start; }
+.about { display: grid; grid-template-columns: minmax(0, 360px) minmax(0, 1fr); gap: 64px; align-items: start; }
+.about-main { min-width: 0; display: grid; gap: 40px; }
 .about-text .ctas { margin-top: 26px; }
+/* fotografija u okviru prozora, kao screenshotovi projekata */
+.photo { position: sticky; top: 110px; margin: 0; border: 1px solid var(--line); border-radius: 14px; overflow: hidden; background: var(--surface);
+  box-shadow: 0 40px 80px -40px var(--shadow); }
+.photo .bar { display: flex; align-items: center; gap: 7px; padding: 10px 12px; background: var(--surface-2); border-bottom: 1px solid var(--line); }
+.photo .bar i { width: 9px; height: 9px; border-radius: 50%; background: var(--line); }
+.photo .bar span { margin-left: 8px; font: 12px var(--f-mono); color: var(--muted); }
+.ph-img { overflow: hidden; clip-path: inset(0); transition: clip-path 1.1s cubic-bezier(.65,0,.35,1); }
+.ph-img img { width: 100%; aspect-ratio: 4 / 5; object-fit: cover; transition: transform 1.4s cubic-bezier(.2,.7,.2,1); }
+.photo:hover .ph-img img { transform: scale(1.03); }
+/* pri skrolovanju slika se "otkrije" odozdo nagore */
+.photo.pre { opacity: 1; transform: none; }
+.photo.pre .ph-img { clip-path: inset(100% 0 0 0); }
+.photo.pre .ph-img img { transform: scale(1.18); }
+.photo figcaption { display: flex; justify-content: space-between; gap: 12px; padding: 8px 12px; font: 11.5px var(--f-mono); color: var(--muted);
+  border-top: 1px solid var(--line); background: var(--surface-2); }
+.photo figcaption span:first-child { color: var(--blue); }
 .about-text p { margin: 0 0 18px; font-size: 18px; color: var(--muted); max-width: 36em; }
 .about-text p strong { color: var(--fg); font-weight: 500; }
 .facts { margin: 0; border-top: 1px solid var(--line); }
 .facts div { display: grid; grid-template-columns: 120px 1fr; gap: 16px; padding: 16px 0; border-bottom: 1px solid var(--line); }
 .facts dt { font: 12px/1.9 var(--f-mono); letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
 .facts dd { margin: 0; }
-@media (max-width: 860px) { .about { grid-template-columns: 1fr; gap: 32px; } }
+@media (max-width: 860px) { .about { grid-template-columns: minmax(0, 1fr); gap: 36px; } .photo { position: relative; top: 0; max-width: 360px; } }
 @media (max-width: 460px) { .facts div { grid-template-columns: 1fr; gap: 2px; } }
 
 /* Tools: periodni sistem stack-a */
@@ -678,6 +698,15 @@ footer a:hover { color: var(--fg); }
         </div>
       </div>
       <div class="about">
+        <figure class="photo">
+          <div class="bar" aria-hidden="true"><i></i><i></i><i></i><span>nikola.webp</span></div>
+          <div class="ph-img">
+            <img src="img/nikola.webp" srcset="img/nikola-sm.webp 420w, img/nikola.webp 720w" sizes="(max-width: 860px) min(360px, 100vw), 360px"
+              width="720" height="900" alt="Nikola Vojvodić" loading="lazy" decoding="async">
+          </div>
+          <figcaption><span>● Nikola Vojvodić</span><span data-i18n="ab.v2">Čačak, Srbija</span></figcaption>
+        </figure>
+        <div class="about-main">
         <div class="about-text">
           <p data-i18n="ab.p1">Ja sam <strong>Nikola Vojvodić</strong>, web developer iz Čačka i diplomirani inženjer informacionih tehnologija (FTN Čačak, 2026). Pravim kompletne, funkcionalne web aplikacije u JavaScript-u, od <strong>full-stack alata za developere</strong> i <strong>offline-first PWA</strong> aplikacija do interaktivnih sajtova.</p>
           <p data-i18n="ab.p2">Svaki projekat pravim od nule, sa pažnjom na čist kod, <strong>pristupačnost i automatske testove</strong>. Svaki projekat na ovoj stranici ima verziju uživo i kompletan kod na GitHubu, a testovi se automatski pokreću pri svakoj izmeni.</p>
@@ -697,6 +726,7 @@ footer a:hover { color: var(--fg); }
           <div><dt data-i18n="ab.k4">Jezici</dt><dd data-i18n="ab.v4">Srpski (maternji), engleski (profesionalni nivo)</dd></div>
           <div><dt data-i18n="ab.k5">Status</dt><dd data-i18n="ab.v5">Tražim prvi posao, junior frontend ili full-stack</dd></div>
         </dl>
+        </div>
       </div>
     </div>
   </section>
@@ -717,7 +747,7 @@ footer a:hover { color: var(--fg); }
   <section class="contact" id="kontakt">
     <div class="wrap">
       <div>
-        <span class="label blue" data-i18n="c.eyebrow">Kontakt</span>
+        <span class="label blue" data-i18n="c.eyebrow">Javi se</span>
         <h2 data-i18n="c.title">Hajde da<br><span>pričamo.</span></h2>
         <p class="lead" data-i18n="c.lead">Imaš posao, projekat ili samo pitanje? Pošalji poruku i odgovoriću u roku od jednog do dva dana.</p>
         <ul class="direct">
@@ -825,7 +855,7 @@ const EN = {
   "t.c2": "Web platform", "t.rest": "fetch, caching, error handling", "t.storage": "localStorage, import & export", "t.intl": "translations, plurals, dates", "t.json": "working with API data",
   "t.c3l": "Quality", "t.c3": "Testing", "t.pw": "end-to-end tests", "t.unit": "unit tests", "t.axe": "automated accessibility checks", "t.csp": "browser security", "t.lh": "speed, SEO, accessibility",
   "t.c4l": "Every day", "t.c4": "Tools", "t.git": "version control, pull requests", "t.node": "dev server, scripts", "t.vsc": "editor, Live Server, debugging", "t.dt": "debugging, performance, network", "t.figma": "design and prototypes",
-  "c.eyebrow": "Contact", "c.title": "Let's<br><span>talk.</span>",
+  "c.eyebrow": "Say hello", "c.title": "Let's<br><span>talk.</span>",
   "c.lead": "Got a job, a project or just a question? Send me a message and I'll reply within a day or two.", "c.copy": "Copy", "c.cvv": "View ↗", "c.cv": "Download PDF ↓",
   "c.name": "Name", "c.nameph": "Your name", "c.emailph": "name@example.com", "c.subj": "Subject", "c.subjph": "Job, project, collaboration…",
   "c.msg": "Message", "c.msgph": "Tell me what it's about", "c.send": "Send message",
@@ -1320,7 +1350,7 @@ console.log(
 
   // otkrivanje sekcija pri skrolovanju (samo ono što je ispod ekrana)
   if ("IntersectionObserver" in window) {
-    const targets = document.querySelectorAll(".sec-head, .proj, .about-text, .facts, .el, .grp, .contact .wrap > *");
+    const targets = document.querySelectorAll(".sec-head, .proj, .photo, .about-text, .facts, .el, .grp, .contact .wrap > *");
     const io = new IntersectionObserver(entries => {
       entries.forEach(en => { if (en.isIntersecting) { en.target.classList.remove("pre"); io.unobserve(en.target); } });
     }, { rootMargin: "0px 0px -8% 0px" });
