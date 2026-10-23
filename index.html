@@ -241,7 +241,16 @@ header.nav {
 .ed-code a.ed-link:hover { text-decoration-color: currentColor; background: color-mix(in srgb, var(--blue) 14%, transparent); border-radius: 3px; }
 .ed-code .h { color: var(--syn-kw); font-weight: 600; }
 .ed-gutter { padding: 0 14px 0 16px; text-align: right; color: var(--syn-com); user-select: none; font-variant-numeric: tabular-nums; }
-.ed-gutter span { display: block; }
+.ed-gutter span { display: block; transition: color .15s; }
+/* editor povezan sa stranicom: red u kodu <-> element koji opisuje (kao "Inspect" u browseru) */
+.ed-code .ln { display: block; min-height: 1.75em; margin-right: -18px; padding-right: 18px; transition: background .15s, box-shadow .15s; }
+.ed-code .ln.hl { background: color-mix(in srgb, var(--blue) 12%, transparent); box-shadow: inset 2px 0 0 var(--blue); }
+.ed-gutter span.hl { color: var(--fg); }
+.ed-code .ln[data-link] { cursor: default; }
+[data-inspect] { position: relative; transition: outline-color .15s; outline: 1px dashed transparent; outline-offset: 8px; border-radius: 4px; }
+[data-inspect].inspected { outline-color: var(--blue); }
+[data-inspect].inspected::after { content: attr(data-inspect); position: absolute; left: -8px; bottom: calc(100% + 10px); z-index: 3; white-space: nowrap;
+  font: 500 11.5px/1 var(--f-mono); letter-spacing: 0; color: var(--blue-ink); background: var(--blue); padding: 4px 7px; border-radius: 4px; pointer-events: none; }
 .ed-code { margin: 0; padding-right: 18px; white-space: pre; color: var(--fg); font: inherit; }
 .ed-code .k { color: var(--syn-kw); }
 .ed-code .p { color: var(--syn-prop); }
@@ -319,7 +328,11 @@ section.block .wrap { padding-block: 104px 8px; }
 .proj { scroll-margin-top: 110px; display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, .8fr); gap: 56px; align-items: center; }
 .proj.flip { grid-template-columns: minmax(0, .8fr) minmax(0, 1.2fr); }   /* slika desno, ali i dalje u široj koloni */
 .proj.flip .shots { order: 2; }
-.shots { position: relative; padding: 0 0 40px 0; }
+.shots { position: relative; padding: 0 0 40px 0; perspective: 1400px; }
+.shots .browser, .shots .phone { transition: transform .6s cubic-bezier(.2,.7,.2,1); }
+.shots .browser { transform: rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg)); }
+.shots .phone { transform: translate3d(var(--px, 0px), var(--py, 0px), 0); }
+.editor { transition: transform .5s cubic-bezier(.2,.7,.2,1); }
 .browser { border: 1px solid var(--line); border-radius: 14px; overflow: hidden; background: var(--surface); box-shadow: 0 40px 80px -40px var(--shadow); }
 .browser .bar { display: flex; align-items: center; gap: 7px; padding: 10px 12px; background: var(--surface-2); border-bottom: 1px solid var(--line); }
 .browser .bar i { width: 9px; height: 9px; border-radius: 50%; background: var(--line); }
@@ -518,10 +531,10 @@ footer a:hover { color: var(--fg); }
     <div class="wrap">
       <div class="hero-in">
         <div class="kicker">
-          <span class="avail"><i></i><span data-i18n="hero.avail">Dostupan za posao</span></span>
+          <span class="avail" data-inspect="span.avail" data-ln="10"><i></i><span data-i18n="hero.avail">Dostupan za posao</span></span>
         </div>
-        <h1 class="ime" style="--i:1">Nikola <span>Vojvodić</span></h1>
-        <p class="uloga" style="--i:2">Full-stack developer <i aria-hidden="true">/</i> <span class="nw">React · Node.js</span></p>
+        <h1 class="ime" style="--i:1" data-inspect="h1" data-ln="1">Nikola <span>Vojvodić</span></h1>
+        <p class="uloga" style="--i:2" data-inspect="p.role" data-ln="2">Full-stack developer <i aria-hidden="true">/</i> <span class="nw">React · Node.js</span></p>
         <div class="ctas" style="--i:3">
           <a class="btn primary" href="#projekti" data-i18n="hero.cta1">Pogledaj projekte</a>
           <a class="btn" href="#kontakt" data-i18n="hero.cta2">Pošalji poruku</a>
@@ -989,8 +1002,9 @@ function drawCode(lines, upto = Infinity) {
     left -= 1;
     return s;
   });
-  document.getElementById("ed-gutter").innerHTML = lines.map((_, i) => `<span>${i + 1}</span>`).join("");
-  document.getElementById("ed-code").innerHTML = html.join("\n");
+  document.getElementById("ed-gutter").innerHTML = lines.map((_, i) => `<span data-ln="${i}">${i + 1}</span>`).join("");
+  document.getElementById("ed-code").innerHTML = html.map((h, i) => `<span class="ln" data-ln="${i}">${h}</span>`).join("");
+  if (typeof markLines === "function") markLines();
   return pos;
 }
 const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -1390,7 +1404,56 @@ console.log(
     const ptable = document.getElementById("ptable");
     new MutationObserver(() => ptable.querySelectorAll(".el, .grp").forEach(el => el.classList.add("reveal"))).observe(ptable, { childList: true });
   }
+
+  // blago 3D naginjanje editora i screenshotova za mišem
+  const hero = document.getElementById("hero"), editor = document.querySelector(".editor");
+  hero.addEventListener("pointermove", e => {
+    if (e.pointerType !== "mouse") return;
+    const r = hero.getBoundingClientRect();
+    const mx = (e.clientX - r.left) / r.width - .5, my = (e.clientY - r.top) / r.height - .5;
+    editor.style.transform = `perspective(1200px) rotateY(${(mx * -4).toFixed(2)}deg) rotateX(${(my * 3).toFixed(2)}deg)`;
+  });
+  hero.addEventListener("pointerleave", () => { editor.style.transform = ""; });
+  document.querySelectorAll(".shots").forEach(sh => {
+    sh.addEventListener("pointermove", e => {
+      if (e.pointerType !== "mouse") return;
+      const r = sh.getBoundingClientRect();
+      const x = (e.clientX - r.left) / r.width - .5, y = (e.clientY - r.top) / r.height - .5;
+      sh.style.setProperty("--ry", (x * 6).toFixed(2) + "deg"); sh.style.setProperty("--rx", (y * -4).toFixed(2) + "deg");
+      sh.style.setProperty("--px", (x * -14).toFixed(1) + "px"); sh.style.setProperty("--py", (y * -10).toFixed(1) + "px");
+    });
+    sh.addEventListener("pointerleave", () => { sh.style.setProperty("--ry", "0deg"); sh.style.setProperty("--rx", "0deg"); sh.style.setProperty("--px", "0px"); sh.style.setProperty("--py", "0px"); });
+  });
 })();
+
+/* ---------- Editor povezan sa stranicom ("Inspect") ----------
+   Pređi mišem preko imena, uloge ili "Available for work": u editoru zasvetli red koji ih opisuje.
+   Pređi preko tog reda u editoru: na stranici se označi element, sa nazivom taga kao u DevTools-u. */
+const inspectTargets = [...document.querySelectorAll("[data-inspect]")];
+function highlightLine(ln, on) {
+  if (edFile !== "nikola") return;
+  document.querySelectorAll(`#ed-code .ln[data-ln="${ln}"], #ed-gutter span[data-ln="${ln}"]`).forEach(el => el.classList.toggle("hl", on));
+}
+function markLines() {   // poziva se posle svakog crtanja koda
+  if (edFile !== "nikola") return;
+  document.querySelectorAll("[data-inspect]").forEach(t => { const line = document.querySelector(`#ed-code .ln[data-ln="${t.dataset.ln}"]`); if (line) line.dataset.link = t.dataset.ln; });
+}
+inspectTargets.forEach(t => {
+  t.addEventListener("pointerenter", e => { if (e.pointerType === "mouse") highlightLine(t.dataset.ln, true); });
+  t.addEventListener("pointerleave", () => highlightLine(t.dataset.ln, false));
+});
+const edCode = document.getElementById("ed-code");
+let inspected = null;
+edCode.addEventListener("pointerover", e => {
+  if (e.pointerType !== "mouse") return;
+  const line = e.target.closest(".ln[data-link]");
+  const target = line && edFile === "nikola" ? inspectTargets.find(t => t.dataset.ln === line.dataset.link) : null;
+  if (target === inspected) return;
+  if (inspected) { inspected.classList.remove("inspected"); highlightLine(inspected.dataset.ln, false); }
+  inspected = target;
+  if (target) { target.classList.add("inspected"); highlightLine(target.dataset.ln, true); }
+});
+edCode.addEventListener("pointerleave", () => { if (inspected) { inspected.classList.remove("inspected"); highlightLine(inspected.dataset.ln, false); inspected = null; } });
 
 /* ---------- Kopiranje email adrese ---------- */
 document.getElementById("copy-mail").addEventListener("click", e => {
