@@ -332,7 +332,6 @@ section.block .wrap { padding-block: 104px 8px; }
 .shots .browser, .shots .phone { transition: transform .6s cubic-bezier(.2,.7,.2,1); }
 .shots .browser { transform: rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg)); }
 .shots .phone { transform: translate3d(var(--px, 0px), var(--py, 0px), 0); }
-.editor { transition: transform .5s cubic-bezier(.2,.7,.2,1); }
 .browser { border: 1px solid var(--line); border-radius: 14px; overflow: hidden; background: var(--surface); box-shadow: 0 40px 80px -40px var(--shadow); }
 .browser .bar { display: flex; align-items: center; gap: 7px; padding: 10px 12px; background: var(--surface-2); border-bottom: 1px solid var(--line); }
 .browser .bar i { width: 9px; height: 9px; border-radius: 50%; background: var(--line); }
@@ -1394,15 +1393,7 @@ console.log(
     new MutationObserver(() => ptable.querySelectorAll(".el, .grp").forEach(el => el.classList.add("reveal"))).observe(ptable, { childList: true });
   }
 
-  // blago 3D naginjanje editora i screenshotova za mišem
-  const hero = document.getElementById("hero"), editor = document.querySelector(".editor");
-  hero.addEventListener("pointermove", e => {
-    if (e.pointerType !== "mouse") return;
-    const r = hero.getBoundingClientRect();
-    const mx = (e.clientX - r.left) / r.width - .5, my = (e.clientY - r.top) / r.height - .5;
-    editor.style.transform = `perspective(1200px) rotateY(${(mx * -4).toFixed(2)}deg) rotateX(${(my * 3).toFixed(2)}deg)`;
-  });
-  hero.addEventListener("pointerleave", () => { editor.style.transform = ""; });
+  // blago 3D naginjanje screenshotova za mišem (editor se ne naginje, da tekst u njemu ostane oštar)
   document.querySelectorAll(".shots").forEach(sh => {
     sh.addEventListener("pointermove", e => {
       if (e.pointerType !== "mouse") return;
