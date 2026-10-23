@@ -270,6 +270,10 @@ header.nav {
 .ed-code .u { color: var(--syn-punc); }
 .cursor { display: inline-block; width: 8px; height: 1.15em; vertical-align: -3px; background: var(--blue); animation: blink 1.1s steps(1) infinite; }
 @keyframes blink { 50% { opacity: 0; } }
+.label .cursor { width: .55em; height: 1.1em; margin-left: 2px; vertical-align: -2px; }
+/* promena teme: stara slika ostaje, nova se otkriva u krugu (JS) */
+::view-transition-old(root), ::view-transition-new(root) { animation: none; mix-blend-mode: normal; }
+.theming, .theming * { transition: none !important; }
 .ed-status { display: flex; justify-content: space-between; gap: 12px; padding: 7px 14px; font-size: 11.5px; color: var(--muted);
   border-top: 1px solid var(--line); background: var(--surface-2); }
 .ed-status span:first-child { color: var(--blue); }
@@ -333,6 +337,7 @@ section.block .wrap { padding-block: 104px 8px; }
 /* Projects */
 .projects { display: grid; gap: 96px; }
 .proj { scroll-margin-top: 110px; display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, .8fr); gap: 56px; align-items: center; }
+.proj.flip { grid-template-columns: minmax(0, .8fr) minmax(0, 1.2fr); }   /* slika desno, ali i dalje u široj koloni */
 .proj.flip .shots { order: 2; }
 .shots { position: relative; padding: 0 0 40px 0; perspective: 1400px; }
 .shots .browser, .shots .phone { transition: transform .6s cubic-bezier(.2,.7,.2,1); will-change: transform; }
@@ -1196,11 +1201,28 @@ function updateModeLabel() {
   b.setAttribute("aria-label", light ? MSG[lang].dark : MSG[lang].light);
   b.title = b.getAttribute("aria-label");
 }
-document.getElementById("mode-btn").addEventListener("click", () => {
-  const next = root.getAttribute("data-mode") === "light" ? "dark" : "light";
+function applyMode(next) {
   root.setAttribute("data-mode", next);
   try { localStorage.setItem("pf-mode", next); } catch (e) {}
   updateModeLabel();
+}
+/* nova tema se širi u krug iz dugmeta preko celog ekrana (View Transitions API) */
+let wantMode = root.getAttribute("data-mode") || "dark";   // tema koju je korisnik poslednju izabrao
+document.getElementById("mode-btn").addEventListener("click", e => {
+  const btn = e.currentTarget;
+  wantMode = wantMode === "light" ? "dark" : "light";
+  // bez animacije: stari browseri, "smanji pokrete", skrivena kartica
+  if (!document.startViewTransition || reduceMotion || document.visibilityState !== "visible") { applyMode(wantMode); return; }
+  const r = btn.getBoundingClientRect();
+  const x = r.left + r.width / 2, y = r.top + r.height / 2;
+  const radius = Math.hypot(Math.max(x, innerWidth - x), Math.max(y, innerHeight - y));
+  root.classList.add("theming");                 // bez CSS prelaza boja, da snimak nove teme bude gotov
+  const t = document.startViewTransition(() => applyMode(wantMode));   // brzi dupli klik uvek završi na poslednjem izboru
+  t.ready.then(() => root.animate(
+    { clipPath: [`circle(0px at ${x}px ${y}px)`, `circle(${radius}px at ${x}px ${y}px)`] },
+    { duration: 700, easing: "cubic-bezier(.65, 0, .35, 1)", pseudoElement: "::view-transition-new(root)" }
+  )).catch(() => {});
+  t.finished.finally(() => root.classList.remove("theming"));
 });
 
 setLang("en"); // sajt se uvek otvara na engleskom
@@ -1376,6 +1398,25 @@ console.log(
       if (el.getBoundingClientRect().top > innerHeight) { el.classList.add("pre", "reveal"); io.observe(el); }
       else el.classList.add("reveal");
     });
+    // naslovi sekcija ("// What I've built") se ukucaju kad dođeš do njih, kao kod u editoru
+    const typeLabel = el => {
+      const full = el.textContent, text = document.createTextNode(""), cur = document.createElement("span");
+      cur.className = "cursor"; cur.setAttribute("aria-hidden", "true");
+      el.textContent = ""; el.append(text, cur);
+      let i = 0;
+      const tick = () => {
+        if (!text.isConnected) return;                       // promenjen jezik usred kucanja
+        text.nodeValue = full.slice(0, ++i);
+        if (i < full.length) setTimeout(tick, 38 + Math.random() * 40);
+        else setTimeout(() => cur.remove(), 1400);
+      };
+      setTimeout(tick, 260);
+    };
+    const labelIO = new IntersectionObserver(entries => {
+      entries.forEach(en => { if (en.isIntersecting) { labelIO.unobserve(en.target); typeLabel(en.target); } });
+    }, { rootMargin: "0px 0px -12% 0px" });
+    document.querySelectorAll(".label.blue").forEach(el => { if (el.getBoundingClientRect().top > innerHeight) labelIO.observe(el); });
+
     // jezik ponovo crta pločice; nove pločice odmah vidljive
     const ptable = document.getElementById("ptable");
     new MutationObserver(() => ptable.querySelectorAll(".el, .grp").forEach(el => el.classList.add("reveal"))).observe(ptable, { childList: true });
