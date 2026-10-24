@@ -476,6 +476,16 @@ const COMMANDS = [
   { group: "link", icon: "out", sr: "LinkedIn", en: "LinkedIn", keys: "linkedin", hint: "↗", run: openUrl("https://www.linkedin.com/in/nikola-vojvodi%C4%87-324a79419") }
 ];
 
+// Skrivena komanda: pojavi se samo kad se ukuca "sudo hire nikola".
+const SECRET = {
+  icon: "go", sr: "Pristup odobren ✓ Hajde da pričamo.", en: "Permission granted ✓ Let's talk.", hint: "sudo",
+  run: () => {
+    goTo("#kontakt")();
+    toast(lang === "en" ? "sudo: permission granted ✓" : "sudo: pristup odobren ✓");
+    setTimeout(() => $("#f-name").focus({ preventScroll: true }), 700);
+  }
+};
+
 let results = [];
 let active = 0;
 let opener = null;
@@ -487,8 +497,12 @@ function drawPalette() {
   const words = plain(search.value).split(/\s+/).filter(Boolean);
   const matches = cmd => words.every(w => plain(`${labelOf(cmd)} ${cmd.sr} ${cmd.en} ${cmd.keys}`).includes(w));
   const inLabel = cmd => words.every(w => plain(labelOf(cmd)).includes(w));
-  results = COMMANDS.filter(matches);
-  if (words.length) results.sort((a, b) => inLabel(b) - inLabel(a));
+  if (/^sudo hire (nikola|me)$/.test(words.join(" "))) {
+    results = [SECRET];
+  } else {
+    results = COMMANDS.filter(matches);
+    if (words.length) results.sort((a, b) => inLabel(b) - inLabel(a));
+  }
   active = Math.min(active, Math.max(0, results.length - 1));
 
   if (!results.length) {
@@ -689,6 +703,6 @@ if (!reduceMotion) {
 }
 
 console.log(
-  "%c👋 Hej, developeru!%c\nOvaj sajt radi bez frejmvorka i bez build koraka. Kod: https://github.com/vojvodixdev/vojvodixdev.github.io\nHi there! No framework, no build step. Source: https://github.com/vojvodixdev/vojvodixdev.github.io\nTip: Ctrl + K",
+  "%c👋 Hej, developeru!%c\nOvaj sajt radi bez frejmvorka i bez build koraka. Kod: https://github.com/vojvodixdev/vojvodixdev.github.io\nHi there! No framework, no build step. Source: https://github.com/vojvodixdev/vojvodixdev.github.io\nTip: Ctrl + K → sudo hire nikola",
   "font: 700 16px system-ui; color: #4d8dff;", "font: 12px ui-monospace, monospace; color: #8794b4;"
 );
