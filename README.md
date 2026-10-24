@@ -3,8 +3,10 @@
 Statički sajt bez build koraka, objavljen na **https://vojvodixdev.github.io**.
 
 ```
-index.html                 portfolio (stilovi i skripte su u fajlu)
-img/                       slike projekata
+index.html                 struktura stranice (HTML) i meta tagovi za pregled linka
+css/style.css              svi stilovi, obe teme
+js/main.js                 sva logika: prevodi, editor, paleta, tema, animacije, forma
+img/                       slike projekata, fotografija i og.jpg (slika za pregled linka)
 cv/Nikola_Vojvodic_CV.pdf  CV za dugmad "CV" (zameni fajl istim imenom kad ga ažuriraš)
 ```
 
@@ -30,8 +32,8 @@ Forma šalje poruke preko Formspree-a (`https://formspree.io/f/mppqglyp`). Poruk
 
 ## Kako da menjaš
 
-- Srpski tekst je direktno u `index.html`, engleski prevod je u objektu `EN` u skripti na dnu fajla. Sadržaj prozora `nikola.js` je u objektu `CODE`.
-- Projekti i alati su u `index.html`.
-- Boje tamne teme su u `:root`, svetle u `:root[data-mode="light"]` na vrhu `<style>`.
+- Srpski tekst je direktno u `index.html`, engleski prevod je u objektu `EN` u `js/main.js`. Sadržaj editora (`nikola.js`, `projects.json`, `README.md`) je u objektu `FILES` u `js/main.js`.
+- Projekti su u `index.html`, a lista alata je u nizu `TOOLS` u `js/main.js`.
+- Boje tamne teme su u `:root`, svetle u `:root[data-mode="light"]` na vrhu `css/style.css`.
 - Novi projekat: kopiraj jedan `<article class="proj">` blok, dodaj slike u `img/` (desktop 1600×1000, telefon 500×1082, format `.webp`) i upiši linkove ka sajtu i repozitorijumu. Projekti se smenjuju levo-desno: svaki drugi `<article>` ima klasu `flip`.
-- U tabeli alata (`TOOLS` u skripti) slova u poslednjoj koloni govore u kom projektu se alat vidi: F = FlakeRadar, K = Knjigoteka, L = Last Ember.
+- Svaki alat u `TOOLS` ima polje `used` sa slovima projekata u kojima se vidi: F = FlakeRadar, K = Knjigoteka, L = Last Ember. Glavni alati imaju `area: "core"`.
