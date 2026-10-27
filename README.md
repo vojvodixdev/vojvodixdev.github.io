@@ -19,6 +19,7 @@ Svaki projekat ima svoj repozitorijum i svoj sajt na GitHub Pages, koji se sam a
 | FlakeRadar | https://vojvodixdev.github.io/flakeradar/ | https://github.com/vojvodixdev/flakeradar |
 | Knjigoteka | https://vojvodixdev.github.io/knjigoteka/ | https://github.com/vojvodixdev/knjigoteka |
 | Last Ember | https://vojvodixdev.github.io/last-ember/ | https://github.com/vojvodixdev/last-ember |
+| Morrow | https://vojvodixdev.github.io/morrow/ | https://github.com/vojvodixdev/morrow |
 
 Kad menjaš neki projekat, menjaš ga u njegovom repozitorijumu. Ovde treba nešto promeniti samo ako se promeni opis projekta ili slika.
 
@@ -36,4 +37,4 @@ Forma šalje poruke preko Formspree-a (`https://formspree.io/f/mppqglyp`). Poruk
 - Projekti su u `index.html`, a lista alata je u nizu `TOOLS` u `js/main.js`.
 - Boje tamne teme su u `:root`, svetle u `:root[data-mode="light"]` na vrhu `css/style.css`.
 - Novi projekat: kopiraj jedan `<article class="proj">` blok, dodaj slike u `img/` (desktop 1600×1000, telefon 500×1082, format `.webp`) i upiši linkove ka sajtu i repozitorijumu. Projekti se smenjuju levo-desno: svaki drugi `<article>` ima klasu `flip`.
-- Svaki alat u `TOOLS` ima polje `used` sa slovima projekata u kojima se vidi: F = FlakeRadar, K = Knjigoteka, L = Last Ember. Glavni alati imaju `area: "core"`.
+- Svaki alat u `TOOLS` ima polje `used` sa slovima projekata u kojima se vidi: F = FlakeRadar, K = Knjigoteka, L = Last Ember, M = Morrow. Glavni alati imaju `area: "core"`.

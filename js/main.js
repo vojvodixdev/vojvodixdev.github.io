@@ -39,6 +39,13 @@ const EN = {
   "le.f3": "Cart with delivery, promo codes, tips and pickup time slots",
   "le.f4": "Table booking and a live open / closed status",
   "le.f5": "The whole site in English and Serbian",
+  "mo.altm": "Morrow on a phone", "mo.meta": "2026 · 3D web · brand concept",
+  "mo.desc": "A site for a fictional cold-pressed juice brand from the Morava valley. The cans are 3D, built in code with Three.js, with no ready-made models or photos.",
+  "mo.f1": "A row of 3D cans: the middle one under a spotlight, the side ones darker, all reflected in the floor",
+  "mo.f2": "Clicking a can turns it around and opens its details: taste, nutrition and price",
+  "mo.f3": "An intro where the lights come on one by one, with a still image while the 3D loads",
+  "mo.f4": "A harvest calendar based on today's date and a bag that is remembered",
+  "mo.f5": "8 Playwright tests on desktop and mobile, with no retries for failed tests",
   "ab.eyebrow": "Who I am", "ab.title": "About me",
   "ab.p1": "I'm <strong>Nikola Vojvodić</strong>, a full-stack developer from Čačak, Serbia, with a degree in Information Technology (Faculty of Technical Sciences Čačak, 2026). I build complete, working web applications in JavaScript, from <strong>developer tools</strong> with a backend and database and <strong>offline-first PWAs</strong> to interactive websites.",
   "ab.p2": "I build every project from scratch, with attention to clean code, <strong>accessibility and automated testing</strong>. Every project on this page has a live version and its full source code on GitHub, and the tests run automatically on every change.",
@@ -164,7 +171,10 @@ export default nikola;`
     "tests": 74 },
   { "name": "Last Ember",
     "type": "restaurant website",
-    "dependencies": 0 }
+    "dependencies": 0 },
+  { "name": "Morrow",
+    "type": "3D product site",
+    "tests": 16 }
 ]
 
 // click a name to jump to the project`,
@@ -177,7 +187,10 @@ export default nikola;`
     "tests": 74 },
   { "name": "Last Ember",
     "type": "sajt za restoran",
-    "dependencies": 0 }
+    "dependencies": 0 },
+  { "name": "Morrow",
+    "type": "3D sajt za proizvod",
+    "tests": 16 }
 ]
 
 // klikni na ime da odeš do projekta`
@@ -210,7 +223,7 @@ i pokrivene testovima.
 - [GitHub](github.com/vojvodixdev)`
   }
 };
-const PROJECT_LINKS = { '"FlakeRadar"': "#p-flakeradar", '"Knjigoteka"': "#p-knjigoteka", '"Last Ember"': "#p-last-ember" };
+const PROJECT_LINKS = { '"FlakeRadar"': "#p-flakeradar", '"Knjigoteka"': "#p-knjigoteka", '"Last Ember"': "#p-last-ember", '"Morrow"': "#p-morrow" };
 
 const CODE_TOKENS = /(\/\/.*)|("[^"]*"?)(?=\s*:)|("[^"]*"?)|\b(const|export|default)\b|\b(true|false|\d+)\b|([\p{L}_]+)(?=:)|([{}[\],;:=])/gu;
 
@@ -329,13 +342,14 @@ $("#ed-code").addEventListener("pointerover", e => {
 $("#ed-code").addEventListener("pointerleave", () => inspect(null));
 
 /* ---------- Alati i tehnologije ---------- */
-const PROJECTS = { F: ["FlakeRadar", "#p-flakeradar"], K: ["Knjigoteka", "#p-knjigoteka"], L: ["Last Ember", "#p-last-ember"] };
+const PROJECTS = { F: ["FlakeRadar", "#p-flakeradar"], K: ["Knjigoteka", "#p-knjigoteka"], L: ["Last Ember", "#p-last-ember"], M: ["Morrow", "#p-morrow"] };
 const TOOLS = [
   { name: "React", area: "core", used: "F", sr: "komponente, hooks, state", en: "components, hooks, state" },
-  { name: "JavaScript", area: "core", used: "KL", sr: "ES2022+, moduli, async", en: "ES2022+, modules, async" },
+  { name: "JavaScript", area: "core", used: "KLM", sr: "ES2022+, moduli, async", en: "ES2022+, modules, async" },
   { name: "Tailwind CSS", area: "core", used: "", sr: "utility klase, teme", en: "utility classes, theming" },
-  { name: "HTML5", area: "core", used: "KL", sr: "semantika, pristupačnost", en: "semantics, accessibility" },
-  { name: "CSS3", area: "core", used: "KL", sr: "grid, flexbox, animacije", en: "grid, flexbox, animations" },
+  { name: "HTML5", area: "core", used: "KLM", sr: "semantika, pristupačnost", en: "semantics, accessibility" },
+  { name: "CSS3", area: "core", used: "KLM", sr: "grid, flexbox, animacije", en: "grid, flexbox, animations" },
+  { name: "Three.js", area: "web", used: "M", sr: "3D scena, materijali, svetla", en: "3D scenes, materials, lights" },
   { name: "PWA", area: "web", used: "K", sr: "manifest, instalacija, offline", en: "manifest, install, offline" },
   { name: "Service Worker", area: "web", used: "K", sr: "Cache API, ažuriranja", en: "Cache API, updates" },
   { name: "REST API", area: "web", used: "K", sr: "fetch, greške, keš", en: "fetch, errors, cache" },
@@ -346,16 +360,16 @@ const TOOLS = [
   { name: "Fastify", area: "data", used: "F", sr: "REST API, validacija", en: "REST APIs, validation" },
   { name: "Node.js", area: "data", used: "FK", sr: "API serveri, skripte", en: "API servers, scripts" },
   { name: "Python", area: "data", used: "", sr: "skripte", en: "scripting" },
-  { name: "Playwright", area: "qa", used: "K", sr: "34 end-to-end testa", en: "34 end-to-end tests" },
+  { name: "Playwright", area: "qa", used: "KM", sr: "end-to-end testovi, i na telefonu", en: "end-to-end tests, on mobile too" },
   { name: "node:test", area: "qa", used: "K", sr: "40 unit testova", en: "40 unit tests" },
   { name: "axe-core", area: "qa", used: "K", sr: "automatska provera pristupačnosti", en: "automated accessibility checks" },
   { name: "Vitest", area: "qa", used: "F", sr: "49 unit i API testova", en: "49 unit and API tests" },
-  { name: "WCAG 2.1", area: "qa", used: "KL", sr: "standard pristupačnosti", en: "accessibility standard" },
+  { name: "WCAG 2.1", area: "qa", used: "KLM", sr: "standard pristupačnosti", en: "accessibility standard" },
   { name: "Git", area: "tool", used: "F", sr: "verzionisanje", en: "version control" },
   { name: "GitHub", area: "tool", used: "F", sr: "repozitorijumi, PR", en: "repos, pull requests" },
-  { name: "GitHub Actions", area: "tool", used: "F", sr: "CI, testovi na više verzija", en: "CI, multi-version test runs" },
+  { name: "GitHub Actions", area: "tool", used: "FKM", sr: "CI, testovi na više verzija", en: "CI, multi-version test runs" },
   { name: "Docker", area: "tool", used: "F", sr: "multi-stage image", en: "multi-stage images" },
-  { name: "npm", area: "tool", used: "FK", sr: "paketi, workspaces", en: "packages, workspaces" },
+  { name: "npm", area: "tool", used: "FKM", sr: "paketi, workspaces", en: "packages, workspaces" },
   { name: "VS Code", area: "tool", used: "", sr: "editor, debug", en: "editor, debugging" },
   { name: "Figma", area: "tool", used: "", sr: "dizajn, prototipovi", en: "design, prototypes" }
 ];
@@ -464,6 +478,8 @@ const COMMANDS = [
   { group: "proj", icon: "out", sr: "Knjigoteka uživo", en: "Knjigoteka live demo", keys: "pwa demo knjige", hint: "↗", run: openUrl("https://vojvodixdev.github.io/knjigoteka/") },
   { group: "proj", icon: "box", sr: "Last Ember", en: "Last Ember", keys: "restaurant restoran burger", run: goTo("#p-last-ember") },
   { group: "proj", icon: "out", sr: "Last Ember uživo", en: "Last Ember live demo", keys: "restaurant demo burger", hint: "↗", run: openUrl("https://vojvodixdev.github.io/last-ember/") },
+  { group: "proj", icon: "box", sr: "Morrow", en: "Morrow", keys: "juice sok 3d three limenke cans", run: goTo("#p-morrow") },
+  { group: "proj", icon: "out", sr: "Morrow uživo", en: "Morrow live demo", keys: "juice sok 3d demo", hint: "↗", run: openUrl("https://vojvodixdev.github.io/morrow/") },
   { group: "act", icon: "copy", sr: "Kopiraj email adresu", en: "Copy email address", keys: "mail kontakt", run: () => copyEmail() },
   { group: "act", icon: "file", sr: "Pogledaj CV", en: "View CV", keys: "resume pdf", hint: "PDF", run: openUrl(CV_URL) },
   { group: "act", icon: "down", sr: "Preuzmi CV", en: "Download CV", keys: "resume pdf download", hint: "PDF", run: downloadCv },
