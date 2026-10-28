@@ -38,3 +38,7 @@ Forma šalje poruke preko Formspree-a (`https://formspree.io/f/mppqglyp`). Poruk
 - Boje tamne teme su u `:root`, svetle u `:root[data-mode="light"]` na vrhu `css/style.css`.
 - Novi projekat: kopiraj jedan `<article class="proj">` blok, dodaj slike u `img/` (desktop 1600×1000, telefon 500×1082, format `.webp`) i upiši linkove ka sajtu i repozitorijumu. Projekti se smenjuju levo-desno: svaki drugi `<article>` ima klasu `flip`.
 - Svaki alat u `TOOLS` ima polje `used` sa slovima projekata u kojima se vidi: F = FlakeRadar, K = Knjigoteka, L = Last Ember, M = Morrow. Glavni alati imaju `area: "core"`.
+
+## License
+
+© 2026 Nikola Vojvodić. All rights reserved. The code is public so it can be read and evaluated as part of my portfolio; it is not open source. See [LICENSE](LICENSE) for what is and isn't allowed.

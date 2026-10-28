@@ -1,3 +1,4 @@
+/* © 2026 Nikola Vojvodić · https://vojvodixdev.github.io/ · All rights reserved, see LICENSE. [nv:75f96b7b26] */
 /* Portfolio – Nikola Vojvodić · JavaScript (bez biblioteka) */
 
 const FORM_URL = "https://formspree.io/f/mppqglyp";
@@ -722,3 +723,17 @@ console.log(
   "%c👋 Hej, developeru!%c\nOvaj sajt radi bez frejmvorka i bez build koraka. Kod: https://github.com/vojvodixdev/vojvodixdev.github.io\nHi there! No framework, no build step. Source: https://github.com/vojvodixdev/vojvodixdev.github.io\nTip: Ctrl + K → sudo hire nikola",
   "font: 700 16px system-ui; color: #4d8dff;", "font: 12px ui-monospace, monospace; color: #8794b4;"
 );
+
+/* Autorska prava: kad sajt radi na tuđem domenu, prikaže link ka originalu. Za sopstveni domen dodaj ga u HOMES. */
+(function () {
+  var HOMES = ["vojvodixdev.github.io", "localhost", "127.0.0.1", "[::1]", ""];
+  var host = location.hostname;
+  if (HOMES.indexOf(host) > -1 || /\.localhost$/.test(host)) return;
+  var link = document.createElement("a");
+  link.className = "nv-original";
+  link.href = "https://vojvodixdev.github.io/";
+  link.textContent = "Original work by Nikola Vojvodić";
+  link.setAttribute("data-nv", "nv:75f96b7b26");
+  document.body.appendChild(link);
+  console.warn("This page is a copy of work by Nikola Vojvodić (© 2026, all rights reserved): https://vojvodixdev.github.io/ [nv:75f96b7b26]");
+})();
